@@ -31,7 +31,6 @@ func _physics_process(delta):
 		# Update blend position only when moving to set animation direction
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Run/blend_position", input_vector)
-		# Update animation state
 		animationState.travel("Run")
 
 #		# Animation (alternative): player looks towards mouse position
