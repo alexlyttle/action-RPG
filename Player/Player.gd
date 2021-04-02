@@ -18,6 +18,7 @@ var roll_vector = Vector2.LEFT
 onready var animationPlayer = $AnimationPlayer  # Variable created when Player node is ready
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
+onready var swordHitbox = $HitboxPivot/SwordHitbox
 
 func move():
 	velocity = move_and_slide(velocity)
@@ -35,7 +36,8 @@ func move_state(delta):
 	if input_vector != Vector2.ZERO:
 		input_vector = input_vector.normalized()
 		roll_vector = input_vector
-		
+		swordHitbox.knockback_vector = input_vector
+
 		# ANIMATION: player faces direction of travel
 		# Update blend position only when moving to set animation direction
 		animationTree.set("parameters/Idle/blend_position", input_vector)
@@ -98,3 +100,4 @@ func _physics_process(delta):
 func _ready():
 	# Called when the node enters the scene tree for the first time.	
 	animationTree.active = true
+	swordHitbox.knockback_vector = roll_vector  # Starts facing left like roll_vector
