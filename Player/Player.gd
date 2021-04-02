@@ -3,6 +3,7 @@ extends KinematicBody2D
 const SPEED = 75
 const ACCEL = 500
 const FRICT = 500
+const ROLLM = 1.2  # Roll speed multiplier
 
 enum {
 	MOVE,   # 0
@@ -12,16 +13,20 @@ enum {
 
 var state = MOVE
 var velocity = Vector2.ZERO
+var roll_vector = Vector2.LEFT
 
 onready var animationPlayer = $AnimationPlayer  # Variable created when Player node is ready
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 
+func move():
+	velocity = move_and_slide(velocity)
+
 func move_state(delta):
 	# PLAYER MOVEMENT
 	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	input_vector.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 
 #	# ANIMATION (alternative): player looks towards mouse position
 #	var mouse_vector = get_local_mouse_position()
@@ -29,16 +34,19 @@ func move_state(delta):
 
 	if input_vector != Vector2.ZERO:
 		input_vector = input_vector.normalized()
-
+		roll_vector = input_vector
+		
 		# ANIMATION: player faces direction of travel
 		# Update blend position only when moving to set animation direction
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Run/blend_position", input_vector)
 		animationTree.set("parameters/Attack/blend_position", input_vector)
+		animationTree.set("parameters/Roll/blend_position", input_vector)
 
 #		# ANIMATION (alternative): player looks towards mouse position
 #		animationTree.set("parameters/Run/blend_position", mouse_vector)
 #		animationTree.set("parameters/Attack/blend_position", mouse_vector)
+#		animationTree.set("parameters/Roll/blend_position", mouse_vector)
 
 		animationState.travel("Run")  # Update animation state
 
@@ -50,7 +58,10 @@ func move_state(delta):
 		# Decelerate to zero given some friction
 		velocity = velocity.move_toward(Vector2.ZERO, FRICT * delta)
 
-	velocity = move_and_slide(velocity)
+	move()
+
+	if Input.is_action_just_pressed("roll"):
+		state = ROLL
 
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
@@ -63,6 +74,15 @@ func attack_animation_finished():
 	velocity = Vector2.ZERO
 	state = MOVE
 
+func roll_state(delta):
+	# PLAYER ROLL
+	velocity = roll_vector * SPEED * ROLLM
+	animationState.travel("Roll")
+	move()
+
+func roll_animation_finished():
+	state = MOVE
+
 func _physics_process(delta):
 	# Note: Use the _physics_process to access physics of the KinematicBody2D - e.g. move_and_slide
 	match state:
@@ -70,7 +90,7 @@ func _physics_process(delta):
 			move_state(delta)
 
 		ROLL:
-			pass
+			roll_state(delta)
 
 		ATTACK:
 			attack_state(delta)
