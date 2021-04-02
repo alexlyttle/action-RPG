@@ -17,29 +17,26 @@ onready var animationPlayer = $AnimationPlayer  # Variable created when Player n
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 
-func animate_movement(vector):
-	pass
-
 func move_state(delta):
 	# PLAYER MOVEMENT
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 
-#	# Animation (alternative): player looks towards mouse position
+#	# ANIMATION (alternative): player looks towards mouse position
 #	var mouse_vector = get_local_mouse_position()
 #	animationTree.set("parameters/Idle/blend_position", mouse_vector)
 
 	if input_vector != Vector2.ZERO:
 		input_vector = input_vector.normalized()
 
-		# Animation: player faces direction of travel
+		# ANIMATION: player faces direction of travel
 		# Update blend position only when moving to set animation direction
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Run/blend_position", input_vector)
 		animationTree.set("parameters/Attack/blend_position", input_vector)
 
-#		# Animation (alternative): player looks towards mouse position
+#		# ANIMATION (alternative): player looks towards mouse position
 #		animationTree.set("parameters/Run/blend_position", mouse_vector)
 #		animationTree.set("parameters/Attack/blend_position", mouse_vector)
 
@@ -66,7 +63,8 @@ func attack_animation_finished():
 	velocity = Vector2.ZERO
 	state = MOVE
 
-func _physics_process(delta):
+func _process(delta):
+	# Note: Use the _physics_process to access physics of the KinematicBody2D
 	match state:
 		MOVE:
 			move_state(delta)
