@@ -63,8 +63,8 @@ func attack_animation_finished():
 	velocity = Vector2.ZERO
 	state = MOVE
 
-func _process(delta):
-	# Note: Use the _physics_process to access physics of the KinematicBody2D
+func _physics_process(delta):
+	# Note: Use the _physics_process to access physics of the KinematicBody2D - e.g. move_and_slide
 	match state:
 		MOVE:
 			move_state(delta)

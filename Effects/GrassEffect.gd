@@ -10,6 +10,5 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
 func _on_Leaves_animation_finished():
 	queue_free()
