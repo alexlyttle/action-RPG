@@ -1,9 +1,9 @@
 extends KinematicBody2D
 
-export(int) var SPEED = 75
-export(int) var ACCEL = 500
-export(int) var FRICT = 500
-export(float) var ROLLM = 1.2  # Roll speed multiplier
+export(int) var speed = 75
+export(int) var acceleration = 500
+export(int) var friction = 500
+export(float) var roll_speed_multiplier = 1.2  # Roll speed multiplier
 
 enum {
 	MOVE,   # 0
@@ -55,12 +55,12 @@ func move_state(delta):
 		animationState.travel("Run")  # Update animation state
 
 		# Move towards maximum speed with acceleration
-		velocity = velocity.move_toward(SPEED * input_vector, ACCEL * delta)
+		velocity = velocity.move_toward(speed * input_vector, acceleration * delta)
 	else:
 		animationState.travel("Idle")  # Reset state to idle
 
 		# Decelerate to zero given some friction
-		velocity = velocity.move_toward(Vector2.ZERO, FRICT * delta)
+		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
 	move()
 
@@ -83,7 +83,7 @@ func attack_animation_finished():
 
 func roll_state(delta):
 	# PLAYER ROLL
-	velocity = roll_vector * SPEED * ROLLM
+	velocity = roll_vector * speed * roll_speed_multiplier
 	animationState.travel("Roll")
 	move()
 
