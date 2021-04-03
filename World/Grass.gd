@@ -1,5 +1,6 @@
 extends Node2D
 
+
 func create_grass_effect():
 	# GRASS EFFECT SCENE
 	var grassEffect = load("res://Effects/GrassEffect.tscn").instance()  # Instance (node) of scene
@@ -7,10 +8,11 @@ func create_grass_effect():
 	
 	var world = get_tree().current_scene  # Gets first scene in root (here it is the World node)
 	world.add_child(grassEffect)
-	
-# Called when the node enters the scene tree for the first time.
+
+
 func _ready():
 	pass # Replace with function body.
+
 
 func _on_Hurtbox_area_entered(area):
 	create_grass_effect()

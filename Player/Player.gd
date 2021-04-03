@@ -1,9 +1,9 @@
 extends KinematicBody2D
 
-const SPEED = 75
-const ACCEL = 500
-const FRICT = 500
-const ROLLM = 1.2  # Roll speed multiplier
+export(int) var SPEED = 75
+export(int) var ACCEL = 500
+export(int) var FRICT = 500
+export(float) var ROLLM = 1.2  # Roll speed multiplier
 
 enum {
 	MOVE,   # 0
@@ -20,8 +20,10 @@ onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var swordHitbox = $HitboxPivot/SwordHitbox
 
+
 func move():
 	velocity = move_and_slide(velocity)
+
 
 func move_state(delta):
 	# PLAYER MOVEMENT
@@ -68,13 +70,16 @@ func move_state(delta):
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
 
+
 func attack_state(delta):
 	# PLAYER ATTACK
 	animationState.travel("Attack")
 
+
 func attack_animation_finished():
 	velocity = Vector2.ZERO
 	state = MOVE
+
 
 func roll_state(delta):
 	# PLAYER ROLL
@@ -82,8 +87,10 @@ func roll_state(delta):
 	animationState.travel("Roll")
 	move()
 
+
 func roll_animation_finished():
 	state = MOVE
+
 
 func _physics_process(delta):
 	# Note: Use the _physics_process to access physics of the KinematicBody2D - e.g. move_and_slide
@@ -96,6 +103,7 @@ func _physics_process(delta):
 
 		ATTACK:
 			attack_state(delta)
+
 
 func _ready():
 	# Called when the node enters the scene tree for the first time.	
