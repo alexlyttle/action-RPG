@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 const FRICT = 200
 const KNOCK = 120
+const EnemyDeathEffect = preload("res://Effects/EnemyDeathEffect.tscn")
 
 var knockback = Vector2.ZERO
 
@@ -22,3 +23,7 @@ func _on_Hurtbox_area_entered(area):
 func _on_Stats_no_health():
 	# Call down signal up: stats sends no_health signal when health <= 0
 	queue_free()
+	var enemyDeathEffect = EnemyDeathEffect.instance()
+	enemyDeathEffect.global_position = global_position
+	get_parent().add_child(enemyDeathEffect)
+	

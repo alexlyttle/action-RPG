@@ -1,13 +1,12 @@
 extends Node2D
 
+const GrassEffect = preload("res://Effects/GrassEffect.tscn")  # So we only need to load it once
 
 func create_grass_effect():
 	# GRASS EFFECT SCENE
-	var grassEffect = load("res://Effects/GrassEffect.tscn").instance()  # Instance (node) of scene
+	var grassEffect = GrassEffect.instance()  # Instance (node) of scene
 	grassEffect.global_position = global_position  # Set effect to global position of grass
-	
-	var world = get_tree().current_scene  # Gets first scene in root (here it is the World node)
-	world.add_child(grassEffect)
+	get_parent().add_child(grassEffect)
 
 
 func _ready():

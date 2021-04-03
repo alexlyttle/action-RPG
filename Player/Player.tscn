@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Player.png" type="Texture" id=2]
@@ -500,8 +500,6 @@ min_space = Vector2( -1, -1.1 )
 max_space = Vector2( 1, 1.1 )
 blend_mode = 1
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=23]
-
 [sub_resource type="AnimationNodeAnimation" id=24]
 animation = "IdleLeft"
 
@@ -592,8 +590,6 @@ blend_mode = 1
 [sub_resource type="AnimationNodeStateMachine" id=45]
 states/Attack/node = SubResource( 22 )
 states/Attack/position = Vector2( 228, 265 )
-states/BlendSpace2D/node = SubResource( 23 )
-states/BlendSpace2D/position = Vector2( 394, 212.159 )
 states/Idle/node = SubResource( 28 )
 states/Idle/position = Vector2( 228, 155 )
 states/Roll/node = SubResource( 33 )
@@ -646,11 +642,10 @@ anims/RunUp = SubResource( 17 )
 tree_root = SubResource( 45 )
 anim_player = NodePath("../AnimationPlayer")
 parameters/playback = SubResource( 46 )
-parameters/Attack/blend_position = Vector2( -0.0901706, 0.00445342 )
-parameters/BlendSpace2D/blend_position = Vector2( 0, 0 )
-parameters/Idle/blend_position = Vector2( 0, 0 )
-parameters/Roll/blend_position = Vector2( -0.00893581, 0.00278485 )
-parameters/Run/blend_position = Vector2( 0, 0 )
+parameters/Attack/blend_position = Vector2( 0, 1 )
+parameters/Idle/blend_position = Vector2( 0, 1 )
+parameters/Roll/blend_position = Vector2( 0, 1 )
+parameters/Run/blend_position = Vector2( 0, 1 )
 
 [node name="HitboxPivot" type="Position2D" parent="."]
 position = Vector2( 0, -4 )
