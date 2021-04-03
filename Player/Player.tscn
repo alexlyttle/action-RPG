@@ -1,9 +1,10 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Player.png" type="Texture" id=2]
 [ext_resource path="res://Collisions/Hitbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Player/SwordHitbox.gd" type="Script" id=4]
+[ext_resource path="res://Collisions/Hurtbox.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 5.0
@@ -598,13 +599,51 @@ states/Run/node = SubResource( 38 )
 states/Run/position = Vector2( 415, 155 )
 transitions = [ "Idle", "Run", SubResource( 39 ), "Run", "Idle", SubResource( 40 ), "Idle", "Attack", SubResource( 41 ), "Attack", "Idle", SubResource( 42 ), "Idle", "Roll", SubResource( 43 ), "Roll", "Idle", SubResource( 44 ) ]
 start_node = "Idle"
-graph_offset = Vector2( 0, -87.9238 )
+graph_offset = Vector2( 0, -0.723793 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=46]
+
+[sub_resource type="Animation" id=50]
+resource_name = "Idle"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=49]
+resource_name = "Invincibility"
+length = 0.2
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.960784, 0.494118, 0.494118, 0.247059 ) ]
+}
 
 [sub_resource type="CapsuleShape2D" id=47]
 radius = 9.0
 height = 12.0
+
+[sub_resource type="CapsuleShape2D" id=48]
+radius = 5.0
+height = 4.0
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
@@ -647,6 +686,10 @@ parameters/Idle/blend_position = Vector2( 0, 1 )
 parameters/Roll/blend_position = Vector2( 0, 1 )
 parameters/Run/blend_position = Vector2( 0, 1 )
 
+[node name="EffectsPlayer" type="AnimationPlayer" parent="."]
+anims/Idle = SubResource( 50 )
+anims/Invincibility = SubResource( 49 )
+
 [node name="HitboxPivot" type="Position2D" parent="."]
 position = Vector2( 0, -4 )
 rotation = 1.5708
@@ -660,4 +703,16 @@ script = ExtResource( 4 )
 shape = SubResource( 47 )
 disabled = true
 
+[node name="Hurtbox" parent="." instance=ExtResource( 5 )]
+collision_layer = 2147483652
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 0, -4 )
+shape = SubResource( 48 )
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="invincibility_ended" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_ended"]
+[connection signal="invincibility_started" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_started"]
+
 [editable path="HitboxPivot/SwordHitbox"]
+
+[editable path="Hurtbox"]

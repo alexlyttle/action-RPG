@@ -14,11 +14,14 @@ enum {
 var state = MOVE
 var velocity = Vector2.ZERO
 var roll_vector = Vector2.DOWN  # Matches defaults in AnimationTree
+var stats = PlayerStats  # Accesses the global autoload singleton (alternatively, look into using Resourses or JSON files)
 
 onready var animationPlayer = $AnimationPlayer  # Variable created when Player node is ready
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var swordHitbox = $HitboxPivot/SwordHitbox
+onready var hurtbox = $Hurtbox
+onready var effectsPlayer = $EffectsPlayer
 
 
 func move():
@@ -106,6 +109,21 @@ func _physics_process(delta):
 
 
 func _ready():
-	# Called when the node enters the scene tree for the first time.	
+	# Called when the node enters the scene tree for the first time.
+	stats.connect("no_health", self, "queue_free")	
 	animationTree.active = true
 	swordHitbox.knockback_vector = roll_vector  # Starts facing left like roll_vector
+
+
+func _on_Hurtbox_area_entered(area):
+	stats.health -= 1
+	hurtbox.start_invincibility(0.5)
+	hurtbox.create_hit_effect()
+
+
+func _on_Hurtbox_invincibility_started():
+	effectsPlayer.play("Invincibility")
+
+
+func _on_Hurtbox_invincibility_ended():
+	effectsPlayer.play("Idle")

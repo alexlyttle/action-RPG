@@ -20,6 +20,7 @@ var state = IDLE
 onready var body = $Body
 onready var stats = $Stats
 onready var playerDetectionZone = $PlayerDetectionZone
+onready var hurtbox = $Hurtbox
 
 
 func seek_player():
@@ -54,6 +55,7 @@ func _on_Hurtbox_area_entered(area):
 	# Area is the hitbox which collided with the Bat
 	stats.health -= area.damage  # Area has associated damage value
 	knockback = area.knockback_vector * knockback_rate
+	hurtbox.create_hit_effect()
 
 
 func _on_Stats_no_health():
