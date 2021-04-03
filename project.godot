@@ -28,6 +28,10 @@ config/icon="res://icon.png"
 
 PlayerStats="*res://Player/PlayerStats.tscn"
 
+[debug]
+
+settings/fps/force_fps=60
+
 [display]
 
 window/size/width=320
@@ -135,6 +139,10 @@ move_down={
 2d_physics/layer_4="EnemyHurtbox"
 2d_physics/layer_5="Enemy"
 2d_physics/layer_6="SoftCollisions"
+
+[physics]
+
+common/physics_jitter_fix=0.5
 
 [rendering]
 

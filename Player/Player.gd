@@ -24,16 +24,24 @@ onready var hurtbox = $Hurtbox
 onready var effectsPlayer = $EffectsPlayer
 
 
+func get_input_vector():
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	input_vector.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+	return input_vector
+
+
 func move():
 	velocity = move_and_slide(velocity)
 
 
 func move_state(delta):
 	# PLAYER MOVEMENT
-	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	input_vector.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
-
+#	var input_vector = Vector2.ZERO
+#	input_vector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+#	input_vector.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+	var input_vector = get_input_vector()
+	
 #	# ANIMATION (alternative): player looks towards mouse position
 #	var mouse_vector = get_local_mouse_position()
 #	animationTree.set("parameters/Idle/blend_position", mouse_vector)

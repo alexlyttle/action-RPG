@@ -620,7 +620,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=47]
+[sub_resource type="Animation" id=50]
 resource_name = "Invincibility"
 length = 0.2
 loop = true
@@ -638,7 +638,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.960784, 0.494118, 0.494118, 0.247059 ) ]
 }
 
-[sub_resource type="CapsuleShape2D" id=48]
+[sub_resource type="CapsuleShape2D" id=51]
 radius = 9.0
 height = 12.0
 
@@ -693,7 +693,7 @@ parameters/Run/blend_position = Vector2( 0, 1 )
 
 [node name="EffectsPlayer" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 46 )
-anims/Invincibility = SubResource( 47 )
+anims/Invincibility = SubResource( 50 )
 
 [node name="HitboxPivot" type="Position2D" parent="."]
 position = Vector2( 0, -4 )
@@ -705,7 +705,7 @@ collision_mask = 8
 script = ExtResource( 4 )
 
 [node name="CollisionShape2D" parent="HitboxPivot/SwordHitbox" index="0"]
-shape = SubResource( 48 )
+shape = SubResource( 51 )
 disabled = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 5 )]
