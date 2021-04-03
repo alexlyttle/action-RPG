@@ -95,6 +95,13 @@ func roll_animation_finished():
 	state = MOVE
 
 
+func _ready():
+	# Called when the node enters the scene tree for the first time.
+	stats.connect("no_health", self, "queue_free")	
+	animationTree.active = true
+	swordHitbox.knockback_vector = roll_vector  # Starts facing left like roll_vector
+
+
 func _physics_process(delta):
 	# Note: Use the _physics_process to access physics of the KinematicBody2D - e.g. move_and_slide
 	match state:
@@ -106,13 +113,6 @@ func _physics_process(delta):
 
 		ATTACK:
 			attack_state(delta)
-
-
-func _ready():
-	# Called when the node enters the scene tree for the first time.
-	stats.connect("no_health", self, "queue_free")	
-	animationTree.active = true
-	swordHitbox.knockback_vector = roll_vector  # Starts facing left like roll_vector
 
 
 func _on_Hurtbox_area_entered(area):
