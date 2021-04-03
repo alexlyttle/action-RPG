@@ -30,7 +30,7 @@ func seek_player():
 		state = CHASE
 
 
-func _process(delta):
+func _physics_process(delta):
 	knockback = knockback.move_toward(Vector2.ZERO, friction * delta)
 	knockback = move_and_slide(knockback)
 
