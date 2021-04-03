@@ -6,6 +6,7 @@ export(int) var speed = 50
 export(int) var acceleration = 500
 export(int) var friction = 200
 export(int) var knockback_rate = 120
+export(int) var avoidence_rate = 400
 
 enum {
 	IDLE,
@@ -21,6 +22,7 @@ onready var body = $Body
 onready var stats = $Stats
 onready var playerDetectionZone = $PlayerDetectionZone
 onready var hurtbox = $Hurtbox
+onready var softCollision = $SoftCollision
 
 
 func seek_player():
@@ -48,14 +50,17 @@ func _physics_process(delta):
 			else:
 				state = IDLE
 	
+	if softCollision.is_colliding():
+		velocity += avoidence_rate * softCollision.get_push_vector() * delta
 	velocity = move_and_slide(velocity)
 
 
 func _on_Hurtbox_area_entered(area):
 	# Area is the hitbox which collided with the Bat
-	stats.health -= area.damage  # Area has associated damage value
-	knockback = area.knockback_vector * knockback_rate
-	hurtbox.create_hit_effect()
+	if not hurtbox.invincible:
+		stats.health -= area.damage  # Area has associated damage value
+		knockback = area.knockback_vector * knockback_rate
+		hurtbox.create_hit_effect()
 
 
 func _on_Stats_no_health():

@@ -116,9 +116,10 @@ func _physics_process(delta):
 
 
 func _on_Hurtbox_area_entered(area):
-	stats.health -= 1
-	hurtbox.start_invincibility(0.5)
-	hurtbox.create_hit_effect()
+	if not hurtbox.invincible:
+		stats.health -= 1
+		hurtbox.start_invincibility(0.5)
+		hurtbox.create_hit_effect()
 
 
 func _on_Hurtbox_invincibility_started():

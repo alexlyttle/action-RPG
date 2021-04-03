@@ -4,8 +4,8 @@
 [ext_resource path="res://Shadows/LargeShadow.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 8.0
-height = 6.0
+radius = 6.00001
+height = 9.99997
 
 [node name="Bush" type="StaticBody2D"]
 
