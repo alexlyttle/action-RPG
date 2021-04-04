@@ -47,6 +47,13 @@ func move_state(delta):
 	# ANIMATION (alternative): player looks towards mouse position
 	var mouse_vector = get_local_mouse_position().normalized()
 	animationTree.set("parameters/Idle/blend_position", mouse_vector)
+	animationTree.set("parameters/Attack/blend_position", mouse_vector)
+	animationTree.set("parameters/Roll/blend_position", mouse_vector)
+	animationTree.set("parameters/Run/blend_position", mouse_vector)
+
+	# Input control (alternative)
+	roll_vector = mouse_vector  
+	swordHitbox.knockback_vector = mouse_vector
 
 	if input_vector != Vector2.ZERO:
 		input_vector = input_vector.normalized()
@@ -54,10 +61,6 @@ func move_state(delta):
 #		# Input control
 #		roll_vector = input_vector
 #		swordHitbox.knockback_vector = input_vector
-		
-		# Mouse control (alternative)
-		roll_vector = mouse_vector  
-		swordHitbox.knockback_vector = mouse_vector
 
 #		# ANIMATION: player faces direction of travel
 #		# Update blend position only when moving to set animation direction
@@ -65,11 +68,6 @@ func move_state(delta):
 #		animationTree.set("parameters/Run/blend_position", input_vector)
 #		animationTree.set("parameters/Attack/blend_position", input_vector)
 #		animationTree.set("parameters/Roll/blend_position", input_vector)
-
-		# ANIMATION (alternative): player looks towards mouse position
-		animationTree.set("parameters/Run/blend_position", mouse_vector)
-		animationTree.set("parameters/Attack/blend_position", mouse_vector)
-		animationTree.set("parameters/Roll/blend_position", mouse_vector)
 
 		animationState.travel("Run")  # Update animation state
 
