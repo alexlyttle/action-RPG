@@ -96,7 +96,6 @@ func _on_Stats_no_health():
 	var enemyDeathEffect = EnemyDeathEffect.instance()
 	enemyDeathEffect.global_position = global_position
 	get_parent().add_child(enemyDeathEffect)
-	
 
 
 func _on_Hurtbox_invincibility_started():

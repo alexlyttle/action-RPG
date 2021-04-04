@@ -1,0 +1,77 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Options/Controls.gd" type="Script" id=1]
+[ext_resource path="res://Background.tscn" type="PackedScene" id=2]
+
+[node name="Controls" type="Control"]
+margin_right = 320.0
+margin_bottom = 180.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" parent="." instance=ExtResource( 2 )]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 107.0
+margin_top = 26.0
+margin_right = 213.0
+margin_bottom = 153.0
+
+[node name="bindings" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+margin_right = 106.0
+margin_bottom = 40.0
+
+[node name="move_up" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings"]
+margin_right = 106.0
+margin_bottom = 18.0
+alignment = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/move_up"]
+margin_left = 18.0
+margin_right = 90.0
+margin_bottom = 18.0
+text = "Move up"
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/move_up"]
+margin_left = 94.0
+margin_right = 106.0
+margin_bottom = 18.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="move_down" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings"]
+margin_top = 22.0
+margin_right = 106.0
+margin_bottom = 40.0
+alignment = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/move_down"]
+margin_right = 90.0
+margin_bottom = 18.0
+text = "Move down"
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/move_down"]
+margin_left = 94.0
+margin_right = 106.0
+margin_bottom = 18.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="contextual_help" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 106.0
+margin_bottom = 127.0
+text = "Click on a key binding to reassign it, or press the Cancel action."
+align = 1
+autowrap = true

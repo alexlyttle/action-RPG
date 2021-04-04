@@ -37,6 +37,13 @@ func move():
 	velocity = move_and_slide(velocity)
 
 
+func update_animation(direction_vector):
+	animationTree.set("parameters/Idle/blend_position", direction_vector)
+	animationTree.set("parameters/Attack/blend_position", direction_vector)
+	animationTree.set("parameters/Roll/blend_position", direction_vector)
+	animationTree.set("parameters/Run/blend_position", direction_vector)
+
+
 func move_state(delta):
 	# PLAYER MOVEMENT
 #	var input_vector = Vector2.ZERO
@@ -46,10 +53,7 @@ func move_state(delta):
 	
 	# ANIMATION (alternative): player looks towards mouse position
 	var mouse_vector = get_local_mouse_position().normalized()
-	animationTree.set("parameters/Idle/blend_position", mouse_vector)
-	animationTree.set("parameters/Attack/blend_position", mouse_vector)
-	animationTree.set("parameters/Roll/blend_position", mouse_vector)
-	animationTree.set("parameters/Run/blend_position", mouse_vector)
+	update_animation(mouse_vector)
 
 	# Input control (alternative)
 	roll_vector = mouse_vector  
@@ -64,10 +68,7 @@ func move_state(delta):
 
 #		# ANIMATION: player faces direction of travel
 #		# Update blend position only when moving to set animation direction
-#		animationTree.set("parameters/Idle/blend_position", input_vector)
-#		animationTree.set("parameters/Run/blend_position", input_vector)
-#		animationTree.set("parameters/Attack/blend_position", input_vector)
-#		animationTree.set("parameters/Roll/blend_position", input_vector)
+#		update_animation(input_vector)
 
 		animationState.travel("Run")  # Update animation state
 

@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Action RPG"
-run/main_scene="res://World.tscn"
+run/main_scene="res://StartMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -44,6 +44,11 @@ window/stretch/aspect="keep"
 [gdnative]
 
 singletons=[ "res://git_api.gdnlib" ]
+
+[gui]
+
+theme/custom="res://DefaultTheme.tres"
+theme/custom_font="res://DefaultFont.tres"
 
 [importer_defaults]
 
