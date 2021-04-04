@@ -39,10 +39,10 @@ func _on_Timer_timeout():
 
 func _on_Hurtbox_invincibility_started():
 	# This happens during physics process so set should be deferred
-#	set_deferred("collisionShape.disabled", true)
+	collisionShape.set_deferred("disabled", true)
 	set_deferred("monitorable", false)
 
 
 func _on_Hurtbox_invincibility_ended():
-#	collisionShape.disabled = false
+	collisionShape.set_deferred("disabled", false)
 	monitorable = true

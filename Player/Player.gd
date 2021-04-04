@@ -23,7 +23,7 @@ onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var swordHitbox = $HitboxPivot/SwordHitbox
 onready var hurtbox = $Hurtbox
-onready var blinkAnimationPlayer = $BlinkAnimationPlayer
+onready var flickerAnimationPlayer = $FlickerAnimationPlayer
 
 
 func get_input_vector():
@@ -44,26 +44,32 @@ func move_state(delta):
 #	input_vector.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	var input_vector = get_input_vector()
 	
-#	# ANIMATION (alternative): player looks towards mouse position
-#	var mouse_vector = get_local_mouse_position()
-#	animationTree.set("parameters/Idle/blend_position", mouse_vector)
+	# ANIMATION (alternative): player looks towards mouse position
+	var mouse_vector = get_local_mouse_position().normalized()
+	animationTree.set("parameters/Idle/blend_position", mouse_vector)
 
 	if input_vector != Vector2.ZERO:
 		input_vector = input_vector.normalized()
-		roll_vector = input_vector
-		swordHitbox.knockback_vector = input_vector
 
-		# ANIMATION: player faces direction of travel
-		# Update blend position only when moving to set animation direction
-		animationTree.set("parameters/Idle/blend_position", input_vector)
-		animationTree.set("parameters/Run/blend_position", input_vector)
-		animationTree.set("parameters/Attack/blend_position", input_vector)
-		animationTree.set("parameters/Roll/blend_position", input_vector)
+#		# Input control
+#		roll_vector = input_vector
+#		swordHitbox.knockback_vector = input_vector
+		
+		# Mouse control (alternative)
+		roll_vector = mouse_vector  
+		swordHitbox.knockback_vector = mouse_vector
 
-#		# ANIMATION (alternative): player looks towards mouse position
-#		animationTree.set("parameters/Run/blend_position", mouse_vector)
-#		animationTree.set("parameters/Attack/blend_position", mouse_vector)
-#		animationTree.set("parameters/Roll/blend_position", mouse_vector)
+#		# ANIMATION: player faces direction of travel
+#		# Update blend position only when moving to set animation direction
+#		animationTree.set("parameters/Idle/blend_position", input_vector)
+#		animationTree.set("parameters/Run/blend_position", input_vector)
+#		animationTree.set("parameters/Attack/blend_position", input_vector)
+#		animationTree.set("parameters/Roll/blend_position", input_vector)
+
+		# ANIMATION (alternative): player looks towards mouse position
+		animationTree.set("parameters/Run/blend_position", mouse_vector)
+		animationTree.set("parameters/Attack/blend_position", mouse_vector)
+		animationTree.set("parameters/Roll/blend_position", mouse_vector)
 
 		animationState.travel("Run")  # Update animation state
 
@@ -126,18 +132,17 @@ func _physics_process(delta):
 
 
 func _on_Hurtbox_area_entered(area):
-	if not hurtbox.invincible:
-		stats.health -= area.damage
-		hurtbox.start_invincibility(0.6)
-		hurtbox.create_hit_effect()
-		var playerHurtSound = PlayerHurtSound.instance()
-		get_tree().current_scene.add_child(playerHurtSound)  # Add to scene not player
-		# We add sound to scene so it persists when player dies
+	stats.health -= area.damage
+	hurtbox.start_invincibility(0.6)
+	hurtbox.create_hit_effect()
+	var playerHurtSound = PlayerHurtSound.instance()
+	get_tree().current_scene.add_child(playerHurtSound)  # Add to scene not player
+	# We add sound to scene so it persists when player dies
 
 
 func _on_Hurtbox_invincibility_started():
-	blinkAnimationPlayer.play("Start")
+	flickerAnimationPlayer.play("Start")
 
 
 func _on_Hurtbox_invincibility_ended():
-	blinkAnimationPlayer.play("Stop")
+	flickerAnimationPlayer.play("Stop")

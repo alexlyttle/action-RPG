@@ -810,7 +810,7 @@ parameters/Idle/blend_position = Vector2( 0, 1 )
 parameters/Roll/blend_position = Vector2( 0, 1 )
 parameters/Run/blend_position = Vector2( 0, 1 )
 
-[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="FlickerAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Start = SubResource( 51 )
 anims/Stop = SubResource( 52 )
 

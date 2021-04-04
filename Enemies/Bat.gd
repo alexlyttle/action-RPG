@@ -24,7 +24,7 @@ onready var playerDetectionZone = $PlayerDetectionZone
 onready var hurtbox = $Hurtbox
 onready var softCollision = $SoftCollision
 onready var wanderController = $WanderController
-onready var blinkAnimationPlayer = $BlinkAnimationPlayer
+onready var flickerAnimationPlayer = $FlickerAnimationPlayer
 
 
 func seek_player():
@@ -84,11 +84,10 @@ func _physics_process(delta):
 
 func _on_Hurtbox_area_entered(area):
 	# Area is the hitbox which collided with the Bat
-	if not hurtbox.invincible:
-		stats.health -= area.damage  # Area has associated damage value
-		knockback = area.knockback_vector * knockback_rate
-		hurtbox.create_hit_effect()
-		hurtbox.start_invincibility(0.4)
+	stats.health -= area.damage  # Area has associated damage value
+	knockback = area.knockback_vector * knockback_rate
+	hurtbox.create_hit_effect()
+	hurtbox.start_invincibility(0.4)
 
 
 func _on_Stats_no_health():
@@ -101,8 +100,8 @@ func _on_Stats_no_health():
 
 
 func _on_Hurtbox_invincibility_started():
-	blinkAnimationPlayer.play("Start")
+	flickerAnimationPlayer.play("Start")
 
 
 func _on_Hurtbox_invincibility_ended():
-	blinkAnimationPlayer.play("Stop")
+	flickerAnimationPlayer.play("Stop")

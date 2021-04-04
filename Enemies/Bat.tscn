@@ -102,6 +102,7 @@ speed = 40
 material = SubResource( 12 )
 frames = SubResource( 6 )
 animation = "Fly"
+frame = 4
 playing = true
 offset = Vector2( 0, -12 )
 
@@ -141,7 +142,7 @@ shape = SubResource( 11 )
 
 [node name="WanderController" parent="." instance=ExtResource( 9 )]
 
-[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="FlickerAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Start = SubResource( 13 )
 anims/Stop = SubResource( 14 )
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
