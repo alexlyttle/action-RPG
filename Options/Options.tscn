@@ -16,40 +16,37 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 1.0
+margin_right = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 88.0
-margin_top = 70.0
-margin_right = 232.0
-margin_bottom = 110.0
+margin_left = 140.0
+margin_top = 68.0
+margin_right = 179.0
+margin_bottom = 112.0
 
 [node name="VButtonContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
-margin_right = 144.0
-margin_bottom = 18.0
+margin_right = 39.0
+margin_bottom = 44.0
 
 [node name="ControlsButton" type="Button" parent="CenterContainer/VBoxContainer/VButtonContainer"]
-margin_right = 144.0
-margin_bottom = 18.0
+margin_right = 39.0
+margin_bottom = 12.0
 text = "Controls"
 
-[node name="HButtonContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
-margin_top = 22.0
-margin_right = 144.0
-margin_bottom = 40.0
+[node name="SoundButton" type="Button" parent="CenterContainer/VBoxContainer/VButtonContainer"]
+margin_top = 16.0
+margin_right = 39.0
+margin_bottom = 28.0
+text = "Sound"
 
-[node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer/HButtonContainer"]
-margin_right = 46.0
-margin_bottom = 18.0
+[node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer/VButtonContainer"]
+margin_top = 32.0
+margin_right = 39.0
+margin_bottom = 44.0
 text = "Back"
-
-[node name="MainMenuButton" type="Button" parent="CenterContainer/VBoxContainer/HButtonContainer"]
-margin_left = 50.0
-margin_right = 144.0
-margin_bottom = 18.0
-text = "Main Menu"
 [connection signal="pressed" from="CenterContainer/VBoxContainer/VButtonContainer/ControlsButton" to="." method="_on_ControlsButton_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/HButtonContainer/BackButton" to="." method="_on_BackButton_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/HButtonContainer/MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VButtonContainer/BackButton" to="." method="_on_BackButton_pressed"]

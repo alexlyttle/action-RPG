@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Options/Controls.gd" type="Script" id=1]
 [ext_resource path="res://Background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Options/HCheckBoxContainer.tscn" type="PackedScene" id=3]
 
 [node name="Controls" type="Control"]
 margin_right = 320.0
@@ -21,57 +22,184 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 107.0
-margin_top = 26.0
-margin_right = 213.0
-margin_bottom = 153.0
+margin_left = 37.0
+margin_top = 7.0
+margin_right = 283.0
+margin_bottom = 173.0
 
-[node name="bindings" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
-margin_right = 106.0
-margin_bottom = 40.0
+[node name="HCheckBoxContainer" parent="CenterContainer/VBoxContainer" instance=ExtResource( 3 )]
 
-[node name="move_up" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings"]
-margin_right = 106.0
-margin_bottom = 18.0
+[node name="Description" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 28.0
+margin_right = 246.0
+margin_bottom = 47.0
+text = "Use the mouse to control the direction of actions and the keyboard for movement."
+align = 1
+autowrap = true
+
+[node name="bindings" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+margin_top = 51.0
+margin_right = 246.0
+margin_bottom = 127.0
+alignment = 1
+
+[node name="Movement" type="VBoxContainer" parent="CenterContainer/VBoxContainer/bindings"]
+margin_left = 65.0
+margin_right = 130.0
+margin_bottom = 76.0
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/Movement"]
+margin_right = 65.0
+margin_bottom = 12.0
+text = "Movement"
+align = 2
+
+[node name="move_up" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/Movement"]
+margin_top = 16.0
+margin_right = 65.0
+margin_bottom = 28.0
 alignment = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/move_up"]
-margin_left = 18.0
-margin_right = 90.0
-margin_bottom = 18.0
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/Movement/move_up"]
+margin_left = 9.0
+margin_right = 49.0
+margin_bottom = 12.0
 text = "Move up"
+align = 2
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/move_up"]
-margin_left = 94.0
-margin_right = 106.0
-margin_bottom = 18.0
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/Movement/move_up"]
+margin_left = 53.0
+margin_right = 65.0
+margin_bottom = 12.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="move_down" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings"]
-margin_top = 22.0
-margin_right = 106.0
-margin_bottom = 40.0
+[node name="move_left" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/Movement"]
+margin_top = 32.0
+margin_right = 65.0
+margin_bottom = 44.0
 alignment = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/move_down"]
-margin_right = 90.0
-margin_bottom = 18.0
-text = "Move down"
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/Movement/move_left"]
+margin_left = 5.0
+margin_right = 49.0
+margin_bottom = 12.0
+text = "Move left"
+align = 2
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/move_down"]
-margin_left = 94.0
-margin_right = 106.0
-margin_bottom = 18.0
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/Movement/move_left"]
+margin_left = 53.0
+margin_right = 65.0
+margin_bottom = 12.0
+
+[node name="move_down" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/Movement"]
+margin_top = 48.0
+margin_right = 65.0
+margin_bottom = 60.0
+alignment = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/Movement/move_down"]
+margin_right = 49.0
+margin_bottom = 12.0
+text = "Move down"
+align = 2
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/Movement/move_down"]
+margin_left = 53.0
+margin_right = 65.0
+margin_bottom = 12.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="move_right" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/Movement"]
+margin_top = 64.0
+margin_right = 65.0
+margin_bottom = 76.0
+alignment = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/Movement/move_right"]
+margin_left = 2.0
+margin_right = 49.0
+margin_bottom = 12.0
+text = "Move right"
+align = 2
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/Movement/move_right"]
+margin_left = 53.0
+margin_right = 65.0
+margin_bottom = 12.0
+
+[node name="Actions" type="VBoxContainer" parent="CenterContainer/VBoxContainer/bindings"]
+margin_left = 134.0
+margin_right = 181.0
+margin_bottom = 76.0
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/Actions"]
+margin_right = 47.0
+margin_bottom = 12.0
+text = "Actions"
+align = 2
+
+[node name="attack" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/Actions"]
+margin_top = 16.0
+margin_right = 47.0
+margin_bottom = 28.0
+alignment = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/Actions/attack"]
+margin_right = 31.0
+margin_bottom = 12.0
+text = "Attack"
+align = 2
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/Actions/attack"]
+margin_left = 35.0
+margin_right = 47.0
+margin_bottom = 12.0
+
+[node name="roll" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/Actions"]
+margin_top = 32.0
+margin_right = 47.0
+margin_bottom = 44.0
+alignment = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/Actions/roll"]
+margin_left = 11.0
+margin_right = 31.0
+margin_bottom = 12.0
+text = "Roll"
+align = 2
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/Actions/roll"]
+margin_left = 35.0
+margin_right = 47.0
+margin_bottom = 12.0
 
 [node name="contextual_help" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_top = 44.0
-margin_right = 106.0
-margin_bottom = 127.0
+margin_top = 131.0
+margin_right = 246.0
+margin_bottom = 150.0
 text = "Click on a key binding to reassign it, or press the Cancel action."
 align = 1
 autowrap = true
+
+[node name="HButtonContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+margin_top = 154.0
+margin_right = 246.0
+margin_bottom = 166.0
+alignment = 1
+
+[node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer/HButtonContainer"]
+margin_left = 91.0
+margin_right = 120.0
+margin_bottom = 12.0
+text = "Back"
+
+[node name="ResetButton" type="Button" parent="CenterContainer/VBoxContainer/HButtonContainer"]
+margin_left = 124.0
+margin_right = 154.0
+margin_bottom = 12.0
+text = "Reset"
+[connection signal="option_changed" from="CenterContainer/VBoxContainer/HCheckBoxContainer" to="." method="_on_HCheckBoxContainer_option_changed"]

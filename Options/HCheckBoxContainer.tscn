@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Options/HCheckBoxContainer.gd" type="Script" id=1]
+
+[node name="HCheckBoxContainer" type="HBoxContainer"]
+margin_right = 246.0
+margin_bottom = 24.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KeyboardMouseCheckBox" type="CheckBox" parent="."]
+margin_right = 98.0
+margin_bottom = 24.0
+text = "Keyboard & Mouse"
+
+[node name="KeyboardCheckBox" type="CheckBox" parent="."]
+margin_left = 102.0
+margin_right = 181.0
+margin_bottom = 24.0
+text = "Keyboard Only"
+
+[node name="ControllerCheckBox" type="CheckBox" parent="."]
+margin_left = 185.0
+margin_right = 246.0
+margin_bottom = 24.0
+text = "Controller"
+[connection signal="pressed" from="KeyboardMouseCheckBox" to="." method="_on_KeyboardMouseCheckBox_pressed"]
+[connection signal="pressed" from="KeyboardCheckBox" to="." method="_on_KeyboardCheckBox_pressed"]
+[connection signal="pressed" from="ControllerCheckBox" to="." method="_on_ControllerCheckBox_pressed"]
