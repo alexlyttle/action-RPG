@@ -61,7 +61,7 @@ func update_inputmap(event):
 
 
 func axis_sign(axis_value):
-	return "+" if axis_value > 1 else "-"
+	return "+" if axis_value > 0 else "-"
 
 
 func _input(event):
