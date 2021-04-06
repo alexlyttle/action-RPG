@@ -44,6 +44,7 @@ margin_top = 51.0
 margin_right = 245.0
 margin_bottom = 126.0
 rect_min_size = Vector2( 0, 75 )
+follow_focus = true
 scroll_horizontal_enabled = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings"]

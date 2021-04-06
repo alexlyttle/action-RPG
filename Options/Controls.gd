@@ -123,6 +123,8 @@ func update_buttons(first_time):
 
 func _ready():
 	# Load config if existing, if not it will be generated with default values
+	checkBoxContainer.get_node("KeyboardMouseCheckBox").grab_focus()
+	
 	var config_file = config.load_config()
 	var mode = config_file.get_value("mode", "name")
 	checkBoxContainer.current_option = mode
@@ -134,6 +136,19 @@ func _ready():
 	display_help()
 	# Do not start processing input until a button is pressed
 	set_process_input(false)
+	
+	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	_on_joy_connection_changed(null, false)
+
+
+func _on_joy_connection_changed(id, connected):
+	var connected_joypads = Input.get_connected_joypads()
+	if not connected and connected_joypads.size() == 0:
+		checkBoxContainer.options["gamepad"].disabled = true
+		if checkBoxContainer.options["gamepad"].pressed:
+			checkBoxContainer.options["keyboard_mouse"].pressed = true
+	else:
+		checkBoxContainer.options["gamepad"].disabled = false
 
 
 func _on_HCheckBoxContainer_option_changed(mode):
