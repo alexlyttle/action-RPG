@@ -189,7 +189,7 @@ position = Vector2( 64, 28 )
 [node name="Grass6" parent="Foreground/Grass" instance=ExtResource( 6 )]
 position = Vector2( 80, 28 )
 
-[node name="Bat" parent="Foreground" instance=ExtResource( 7 )]
+[node name="Bat1" parent="Foreground" instance=ExtResource( 7 )]
 position = Vector2( 64, 112 )
 
 [node name="Bat2" parent="Foreground" instance=ExtResource( 7 )]
@@ -197,6 +197,21 @@ position = Vector2( 256, 64 )
 
 [node name="Bat3" parent="Foreground" instance=ExtResource( 7 )]
 position = Vector2( 208, 176 )
+
+[node name="Bat4" parent="Foreground" instance=ExtResource( 7 )]
+position = Vector2( 264, 104 )
+
+[node name="Bat5" parent="Foreground" instance=ExtResource( 7 )]
+position = Vector2( -80, 32 )
+
+[node name="Bat6" parent="Foreground" instance=ExtResource( 7 )]
+position = Vector2( 136, 312 )
+
+[node name="Bat7" parent="Foreground" instance=ExtResource( 7 )]
+position = Vector2( 328, -120 )
+
+[node name="Bat8" parent="Foreground" instance=ExtResource( 7 )]
+position = Vector2( 464, 144 )
 
 [node name="Camera2D" parent="." instance=ExtResource( 11 )]
 position = Vector2( 160, 88 )

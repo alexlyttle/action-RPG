@@ -5,6 +5,6 @@ func _ready():
 	randomize()
 
 
-func _process(delta):
-	if Input.is_action_just_pressed("exit"):
-		get_tree().quit()
+func _input(event):
+	if event.is_action("ui_start"):
+		get_tree().change_scene("res://StartMenu.tscn")

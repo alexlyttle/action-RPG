@@ -17,6 +17,8 @@ var state = MOVE
 var velocity = Vector2.ZERO
 var roll_vector = Vector2.DOWN  # Matches defaults in AnimationTree
 var stats = PlayerStats  # Accesses the global autoload singleton (alternatively, look into using Resourses or JSON files)
+var mode = null
+var config = load("res://Options/Config.gd").new()
 
 onready var animationPlayer = $AnimationPlayer  # Variable created when Player node is ready
 onready var animationTree = $AnimationTree
@@ -51,24 +53,26 @@ func move_state(delta):
 #	input_vector.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	var input_vector = get_input_vector()
 	
-	# ANIMATION (alternative): player looks towards mouse position
-	var mouse_vector = get_local_mouse_position().normalized()
-	update_animation(mouse_vector)
+	if mode == "keyboard_mouse":
+		# ANIMATION (alternative): player looks towards mouse position
+		var mouse_vector = get_local_mouse_position().normalized()
+		update_animation(mouse_vector)
 
-	# Input control (alternative)
-	roll_vector = mouse_vector  
-	swordHitbox.knockback_vector = mouse_vector
+		# Input control (alternative)
+		roll_vector = mouse_vector  
+		swordHitbox.knockback_vector = mouse_vector
 
 	if input_vector != Vector2.ZERO:
 		input_vector = input_vector.normalized()
+		
+		if mode != "keyboard_mouse":
+			# Input control
+			roll_vector = input_vector
+			swordHitbox.knockback_vector = input_vector
 
-#		# Input control
-#		roll_vector = input_vector
-#		swordHitbox.knockback_vector = input_vector
-
-#		# ANIMATION: player faces direction of travel
-#		# Update blend position only when moving to set animation direction
-#		update_animation(input_vector)
+			# ANIMATION: player faces direction of travel
+			# Update blend position only when moving to set animation direction
+			update_animation(input_vector)
 
 		animationState.travel("Run")  # Update animation state
 
@@ -115,7 +119,11 @@ func _ready():
 	stats.connect("no_health", self, "queue_free")	
 	animationTree.active = true
 	swordHitbox.knockback_vector = roll_vector  # Starts facing left like roll_vector
-
+	
+	var config_file = config.load_config()
+	mode = config_file.get_value("mode", "name")
+	config.update_bindings(mode, config_file)
+#	var config = Config.load_config()
 
 func _physics_process(delta):
 	# Note: Use the _physics_process to access physics of the KinematicBody2D - e.g. move_and_slide

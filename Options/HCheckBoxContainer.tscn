@@ -21,11 +21,11 @@ margin_right = 181.0
 margin_bottom = 24.0
 text = "Keyboard Only"
 
-[node name="ControllerCheckBox" type="CheckBox" parent="."]
+[node name="GamepadCheckBox" type="CheckBox" parent="."]
 margin_left = 185.0
-margin_right = 246.0
+margin_right = 245.0
 margin_bottom = 24.0
-text = "Controller"
+text = "Gamepad"
 [connection signal="pressed" from="KeyboardMouseCheckBox" to="." method="_on_KeyboardMouseCheckBox_pressed"]
 [connection signal="pressed" from="KeyboardCheckBox" to="." method="_on_KeyboardCheckBox_pressed"]
-[connection signal="pressed" from="ControllerCheckBox" to="." method="_on_ControllerCheckBox_pressed"]
+[connection signal="pressed" from="GamepadCheckBox" to="." method="_on_GamepadCheckBox_pressed"]
