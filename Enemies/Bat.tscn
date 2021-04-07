@@ -52,7 +52,7 @@ radius = 6.0
 height = 6.0
 
 [sub_resource type="CircleShape2D" id=10]
-radius = 70.0071
+radius = 100.005
 
 [sub_resource type="CircleShape2D" id=11]
 radius = 4.0
@@ -102,7 +102,6 @@ speed = 40
 material = SubResource( 1 )
 frames = SubResource( 7 )
 animation = "Fly"
-frame = 4
 playing = true
 offset = Vector2( 0, -12 )
 
