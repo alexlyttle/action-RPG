@@ -6,5 +6,5 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action("ui_start"):
+	if event.is_action_pressed("ui_start") or event.is_action_pressed("ui_cancel"):
 		get_tree().change_scene("res://StartMenu.tscn")

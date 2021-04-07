@@ -767,7 +767,7 @@ material = SubResource( 1 )
 position = Vector2( 0, -8 )
 texture = ExtResource( 2 )
 hframes = 60
-frame = 19
+frame = 36
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 rotation = -1.5708
@@ -807,7 +807,7 @@ anims/Stop = SubResource( 48 )
 [node name="HitboxPivot" type="Position2D" parent="."]
 visible = false
 position = Vector2( 0, -4 )
-rotation = -1.5708
+rotation = 1.5708
 
 [node name="SwordHitbox" parent="HitboxPivot" instance=ExtResource( 3 )]
 position = Vector2( 15, 0 )

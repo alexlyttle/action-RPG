@@ -339,20 +339,20 @@ margin_left = 103.0
 margin_right = 115.0
 margin_bottom = 12.0
 
-[node name="ui_cancel" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface"]
+[node name="ui_back" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface"]
 margin_top = 96.0
 margin_right = 115.0
 margin_bottom = 108.0
 alignment = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface/ui_cancel"]
-margin_left = 68.0
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface/ui_back"]
+margin_left = 74.0
 margin_right = 99.0
 margin_bottom = 12.0
-text = "Cancel"
+text = "Back"
 align = 2
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface/ui_cancel"]
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface/ui_back"]
 margin_left = 103.0
 margin_right = 115.0
 margin_bottom = 12.0
@@ -360,21 +360,20 @@ margin_bottom = 12.0
 [node name="ui_start" type="HBoxContainer" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface"]
 margin_top = 112.0
 margin_right = 115.0
-margin_bottom = 131.0
+margin_bottom = 124.0
 alignment = 2
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface/ui_start"]
-margin_left = 69.0
+margin_left = 48.0
 margin_right = 99.0
-margin_bottom = 19.0
-text = "Start/
-pause"
+margin_bottom = 12.0
+text = "Start/pause"
 align = 2
 
 [node name="Button" type="Button" parent="CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface/ui_start"]
 margin_left = 103.0
 margin_right = 115.0
-margin_bottom = 19.0
+margin_bottom = 12.0
 
 [node name="contextual_help" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_top = 130.0

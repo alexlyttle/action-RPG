@@ -27,13 +27,6 @@ onready var swordHitbox = $HitboxPivot/SwordHitbox
 onready var hurtbox = $Hurtbox
 onready var flickerAnimationPlayer = $FlickerAnimationPlayer
 
-#onready var animationPlayer = get_parent().get_node("Smoothing2D/AnimationPlayer")  # Variable created when Player node is ready
-#onready var animationTree = get_parent().get_node("Smoothing2D/AnimationTree")
-#onready var animationState = animationTree.get("parameters/playback")
-#onready var swordHitbox = $HitboxPivot/SwordHitbox
-#onready var hurtbox = $Hurtbox
-#onready var flickerAnimationPlayer = get_parent().get_node("Smoothing2D/FlickerAnimationPlayer")
-
 
 func get_input_vector():
 	var input_vector = Vector2.ZERO

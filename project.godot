@@ -9,18 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Object",
-"class": "Config",
-"language": "GDScript",
-"path": "res://Options/Config.gd"
-}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
 } ]
 _global_script_class_icons={
-"Config": "",
 "GitAPI": ""
 }
 
@@ -33,10 +27,7 @@ config/icon="res://icon.png"
 [autoload]
 
 PlayerStats="*res://Player/PlayerStats.tscn"
-
-[debug]
-
-settings/fps/force_fps=60
+InputConfig="*res://Options/InputConfig.tscn"
 
 [display]
 
@@ -162,6 +153,10 @@ ui_start={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
  ]
+}
+ui_back={
+"deadzone": 0.5,
+"events": [  ]
 }
 
 [layer_names]

@@ -2,20 +2,23 @@ extends Control
 
 const INPUT_MODES = ["keyboard_mouse", "keyboard_only", "gamepad"]
 const INPUT_GAMEPLAY = ["attack", "roll", "camera_zoom_in", "camera_zoom_out", "move_up", "move_down", "move_left", "move_right"]
-const INPUT_UI = ["ui_left", "ui_right", "ui_up", "ui_down", "ui_accept", "ui_cancel", "ui_start"]
+const INPUT_UI = ["ui_left", "ui_right", "ui_up", "ui_down", "ui_accept", "ui_back", "ui_start"]
 
 const CANCEL_ACTION = "ui_cancel"
-
+	
 const INPUT_DESC = {
 	"keyboard_mouse": "Use the mouse to control the direction of actions and the keyboard for movement.",
 	"keyboard_only": "Use the keyboard to control the direction of actions and movement.",
 	"gamepad": "Use the gamepad to control the direction of actions and movement."
 }
 
-var config = load("res://Options/Config.gd").new()
+#var config = load("res://Options/Config.gd").new()
 
 var action  # To register the action the UI is currently handling
 var button  # Button node corresponding to the above action
+var binding
+var cancel_event = InputMap.get_action_list(CANCEL_ACTION)[0]  # Assume first in list
+var cancel_scancode = OS.get_scancode_string(cancel_event.scancode)
 
 onready var checkBoxContainer = $CenterContainer/VBoxContainer/HCheckBoxContainer
 onready var description = $CenterContainer/VBoxContainer/Description
@@ -26,9 +29,9 @@ onready var popupPanel = $PopupPanel
 
 func save_to_config(section, key, value):
 	"""Helper function to redefine a parameter in the settings file"""
-	var config_file = config.load_config()
+	var config_file = InputConfig.load_config()
 	config_file.set_value(section, key, value)
-	config_file.save(config.CONFIG_FILE)
+	config_file.save(InputConfig.CONFIG_FILE)
 
 # Input management
 
@@ -37,18 +40,20 @@ func wait_for_input(action_bind, binding_node):
 	# See note at the beginning of the script
 	button = binding_node.get_node(action).get_node("Button")
 	get_node("CenterContainer/VBoxContainer/contextual_help").text = "Press a key to assign to the '" + action + "' action."
-	set_process_input(true)
+#	set_process_input(true)
+	binding = true
 
 
 func display_help():
-#	var cancel_event = InputMap.get_action_list(CANCEL_ACTION)[0]  # Assume first in list
-#	var cancel_scancode = OS.get_scancode_string(cancel_event.scancode)
-	get_node("CenterContainer/VBoxContainer/contextual_help").text = "Click a key binding to reassign it, or press Cancel to go back."
+	get_node("CenterContainer/VBoxContainer/contextual_help").text = \
+		"Click a key binding to reassign it, or press " + cancel_scancode + \
+		" to cancel."
 
 
 func process_input():
 	get_tree().set_input_as_handled()
-	set_process_input(false)
+#	set_process_input(false)
+	binding = false
 	display_help()
 
 
@@ -66,35 +71,40 @@ func axis_sign(axis_value):
 
 func _input(event):
 	# Handle the first pressed key
-	if not event is InputEventMouseMotion:
-		process_input()
-		if not event.is_action(CANCEL_ACTION):
-			if event is InputEventKey:
-				# Display the string corresponding to the pressed key
-				var scancode = OS.get_scancode_string(event.scancode)
-				button.text = scancode
-				update_inputmap(event)
-				save_to_config(checkBoxContainer.current_option, action, "KEY," + scancode)
-			elif event is InputEventMouseButton:
-				var button_index = str(event.button_index)
-				button.text = "Mouse " + str(button_index)
-				update_inputmap(event)
-				save_to_config(checkBoxContainer.current_option, action, "MOUSE_BUTTON," + button_index)
-			elif event is InputEventJoypadButton:
-				var button_index = str(event.button_index)
-				button.text = "Button " + button_index
-				update_inputmap(event)
-				save_to_config(checkBoxContainer.current_option, action, "JOY_BUTTON," + button_index)
-			elif event is InputEventJoypadMotion:
-				var axis = str(event.axis)
-				var axis_value = sign(event.axis_value)
-				button.text = "Axis " + axis + axis_sign(axis_value)
-				event.axis_value = sign(axis_value)
-				update_inputmap(event)
-				save_to_config(checkBoxContainer.current_option, action, "JOY_AXIS," + axis + "," + str(axis_value))
-			else:
-				popupPanel.get_node("Label").text = "Input not recognised."
-				popupPanel.popup_centered(Vector2.ZERO)
+	if binding:
+		if not event is InputEventMouseMotion:
+			process_input()
+			if not event.is_action(CANCEL_ACTION):
+				if event is InputEventKey:
+					# Display the string corresponding to the pressed key
+					var scancode = OS.get_scancode_string(event.scancode)
+					button.text = scancode
+					update_inputmap(event)
+					InputConfig.save(checkBoxContainer.current_option, action, "KEY," + scancode)
+				elif event is InputEventMouseButton:
+					var button_index = str(event.button_index)
+					button.text = "Mouse " + str(button_index)
+					update_inputmap(event)
+					InputConfig.save(checkBoxContainer.current_option, action, "MOUSE_BUTTON," + button_index)
+				elif event is InputEventJoypadButton:
+					var button_index = str(event.button_index)
+					button.text = "Button " + button_index
+					update_inputmap(event)
+					InputConfig.save(checkBoxContainer.current_option, action, "JOY_BUTTON," + button_index)
+				elif event is InputEventJoypadMotion:
+					var axis = str(event.axis)
+					var axis_value = sign(event.axis_value)
+					button.text = "Axis " + axis + axis_sign(axis_value)
+					event.axis_value = sign(axis_value)
+					update_inputmap(event)
+					InputConfig.save(checkBoxContainer.current_option, action, "JOY_AXIS," + axis + "," + str(axis_value))
+				else:
+					popupPanel.get_node("Label").text = "Input not recognised."
+					popupPanel.popup_centered(Vector2.ZERO)
+	else:
+		# When not binging, the ui_back action will take us back
+		if event.is_action_pressed("ui_back"):
+			_on_BackButton_pressed()
 
 
 func init_button(action_name, binding_node, first_time):
@@ -125,7 +135,7 @@ func _ready():
 	# Load config if existing, if not it will be generated with default values
 	checkBoxContainer.get_node("KeyboardMouseCheckBox").grab_focus()
 	
-	var config_file = config.load_config()
+	var config_file = InputConfig.load_config()
 	var mode = config_file.get_value("mode", "name")
 	checkBoxContainer.current_option = mode
 	checkBoxContainer.options[mode].pressed = true  # Set current input mode option in check boxes
@@ -135,10 +145,15 @@ func _ready():
 	
 	display_help()
 	# Do not start processing input until a button is pressed
-	set_process_input(false)
+	binding = false
+#	set_process_input(false)
+#
+#	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+#	_on_joy_connection_changed(null, false)
 	
-	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
-	_on_joy_connection_changed(null, false)
+	InputConfig.connect("on_input_mode_changed", self, "_on_input_mode_changed")
+	InputConfig.connect("on_joy_availibility_changed", self, "_on_joy_availibility_changed")
+	InputConfig._joy_connection_changed(null, false)
 
 
 func _on_joy_connection_changed(id, connected):
@@ -151,15 +166,24 @@ func _on_joy_connection_changed(id, connected):
 		checkBoxContainer.options["gamepad"].disabled = false
 
 
-func _on_HCheckBoxContainer_option_changed(mode):
-	description.text = INPUT_DESC[mode]
+func _on_joy_availibility_changed(available):
+	if available:
+		checkBoxContainer.options["gamepad"].disabled = false
+	else:
+		checkBoxContainer.options["gamepad"].disabled = true
+		checkBoxContainer.options["gamepad"].pressed = false
 
-	var config_file = config.load_config()
-	config_file.set_value("mode", "name", mode)
-	config_file.save(config.CONFIG_FILE)
 
-	config.update_bindings(mode, config_file)
-	update_buttons(false)
+#func _on_HCheckBoxContainer_option_changed(mode):
+#	description.text = INPUT_DESC[mode]
+#	InputConfig.active_mode = mode
+#
+##	var config_file = InputConfig.load_config()
+##	config_file.set_value("mode", "name", mode)
+##	config_file.save(InputConfig.CONFIG_FILE)
+#
+##	InputConfig.update_bindings(mode, config_file)
+#	update_buttons(false)
 
 
 func _on_BackButton_pressed():
@@ -167,12 +191,19 @@ func _on_BackButton_pressed():
 
 
 func _on_ResetButton_pressed():
-	var config_file = config.load_config()
-	var defaults_file = config.load_defaults()
-	var mode = checkBoxContainer.current_option
+#	var config_file = InputConfig.load_config()
+#	var defaults_file = InputConfig.load_defaults()
+#	var mode = checkBoxContainer.current_option
+#	InputConfig.active_mode = checkBoxContainer.current_option
+	InputConfig.reset()
+#	config_file = InputConfig.set_mode_defaults(mode, config_file, defaults_file)
+#	config_file.save(InputConfig.CONFIG_FILE)
+#
+#	InputConfig.update_bindings(mode, config_file)
+	update_buttons(false)
 
-	config_file = config.set_mode_defaults(mode, config_file, defaults_file)
-	config_file.save(config.CONFIG_FILE)
-	
-	config.update_bindings(mode, config_file)
+
+func _on_input_mode_changed(mode):
+	checkBoxContainer.options[mode].pressed = true
+	description.text = INPUT_DESC[mode]
 	update_buttons(false)

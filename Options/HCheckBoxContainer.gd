@@ -13,7 +13,8 @@ signal option_changed(option)
 
 func set_current_option(value):
 	if value != null and value != current_option:
-		emit_signal("option_changed", value)  # Emit option checked
+		InputConfig.active_mode = value
+#		emit_signal("option_changed", value)  # Emit option checked
 	current_option = value
 
 
