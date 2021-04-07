@@ -27,14 +27,6 @@ onready var uiBindings = $CenterContainer/VBoxContainer/bindings/HBoxContainer/U
 onready var popupPanel = $PopupPanel
 
 
-func save_to_config(section, key, value):
-	"""Helper function to redefine a parameter in the settings file"""
-	var config_file = InputConfig.load_config()
-	config_file.set_value(section, key, value)
-	config_file.save(InputConfig.CONFIG_FILE)
-
-# Input management
-
 func wait_for_input(action_bind, binding_node):
 	action = action_bind
 	# See note at the beginning of the script
@@ -57,12 +49,12 @@ func process_input():
 	display_help()
 
 
-func update_inputmap(event):
-	# Start by removing previously key binding(s)
-	for old_event in InputMap.get_action_list(action):
-		InputMap.action_erase_event(action, old_event)
-	# Add the new key binding
-	InputMap.action_add_event(action, event)
+#func update_inputmap(event):
+#	# Start by removing previously key binding(s)
+#	for old_event in InputMap.get_action_list(action):
+#		InputMap.action_erase_event(action, old_event)
+#	# Add the new key binding
+#	InputMap.action_add_event(action, event)
 
 
 func axis_sign(axis_value):
@@ -79,25 +71,29 @@ func _input(event):
 					# Display the string corresponding to the pressed key
 					var scancode = OS.get_scancode_string(event.scancode)
 					button.text = scancode
-					update_inputmap(event)
-					InputConfig.save(checkBoxContainer.current_option, action, "KEY," + scancode)
+#					update_inputmap(event)
+					InputConfig.update_inputmap(action, event)
+					InputConfig.save(action, "KEY," + scancode)
 				elif event is InputEventMouseButton:
 					var button_index = str(event.button_index)
 					button.text = "Mouse " + str(button_index)
-					update_inputmap(event)
-					InputConfig.save(checkBoxContainer.current_option, action, "MOUSE_BUTTON," + button_index)
+#					update_inputmap(event)
+					InputConfig.update_inputmap(action, event)
+					InputConfig.save(action, "MOUSE_BUTTON," + button_index)
 				elif event is InputEventJoypadButton:
 					var button_index = str(event.button_index)
 					button.text = "Button " + button_index
-					update_inputmap(event)
-					InputConfig.save(checkBoxContainer.current_option, action, "JOY_BUTTON," + button_index)
+#					update_inputmap(event)
+					InputConfig.update_inputmap(action, event)
+					InputConfig.save(action, "JOY_BUTTON," + button_index)
 				elif event is InputEventJoypadMotion:
 					var axis = str(event.axis)
 					var axis_value = sign(event.axis_value)
 					button.text = "Axis " + axis + axis_sign(axis_value)
 					event.axis_value = sign(axis_value)
-					update_inputmap(event)
-					InputConfig.save(checkBoxContainer.current_option, action, "JOY_AXIS," + axis + "," + str(axis_value))
+#					update_inputmap(event)
+					InputConfig.update_inputmap(action, event)
+					InputConfig.save(action, "JOY_AXIS," + axis + "," + str(axis_value))
 				else:
 					popupPanel.get_node("Label").text = "Input not recognised."
 					popupPanel.popup_centered(Vector2.ZERO)
@@ -111,17 +107,18 @@ func init_button(action_name, binding_node, first_time):
 	# We assume that the key binding that we want is the first one (0), if there are several
 	var input_event = InputMap.get_action_list(action_name)[0]
 	# See note at the beginning of the script
-	var button = binding_node.get_node(action_name).get_node("Button")
+	var current_button = binding_node.get_node(action_name).get_node("Button")
 	if input_event is InputEventKey:
-		button.text = OS.get_scancode_string(input_event.scancode)
+		current_button.text = OS.get_scancode_string(input_event.scancode)
 	elif input_event is InputEventMouseButton:
-		button.text = "Mouse " + str(input_event.button_index)
+		current_button.text = "Mouse " + str(input_event.button_index)
 	elif input_event is InputEventJoypadButton:
-		button.text = "Button " + str(input_event.button_index)
+		current_button.text = "Button " + str(input_event.button_index)
 	elif input_event is InputEventJoypadMotion:
-		button.text = "Axis " + str(input_event.axis) + axis_sign(input_event.axis_value)
+		current_button.text = "Axis " + str(input_event.axis) + axis_sign(input_event.axis_value)
 	if first_time:
-		button.connect("pressed", self, "wait_for_input", [action_name, binding_node])
+		# Only connect button on first time - must be a better way to manage this?
+		current_button.connect("pressed", self, "wait_for_input", [action_name, binding_node])
 
 
 func update_buttons(first_time):
@@ -133,57 +130,12 @@ func update_buttons(first_time):
 
 func _ready():
 	# Load config if existing, if not it will be generated with default values
+	binding = false  # Not currently binding
 	checkBoxContainer.get_node("KeyboardMouseCheckBox").grab_focus()
-	
-	var config_file = InputConfig.load_config()
-	var mode = config_file.get_value("mode", "name")
-	checkBoxContainer.current_option = mode
-	checkBoxContainer.options[mode].pressed = true  # Set current input mode option in check boxes
-	
-	# Initialise each button with the default key binding from InputMap
-	update_buttons(true)
-	
+	update_buttons(true)  # Update buttons for the first time
 	display_help()
-	# Do not start processing input until a button is pressed
-	binding = false
-#	set_process_input(false)
-#
-#	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
-#	_on_joy_connection_changed(null, false)
-	
+
 	InputConfig.connect("on_input_mode_changed", self, "_on_input_mode_changed")
-	InputConfig.connect("on_joy_availibility_changed", self, "_on_joy_availibility_changed")
-	InputConfig._joy_connection_changed(null, false)
-
-
-func _on_joy_connection_changed(id, connected):
-	var connected_joypads = Input.get_connected_joypads()
-	if not connected and connected_joypads.size() == 0:
-		checkBoxContainer.options["gamepad"].disabled = true
-		if checkBoxContainer.options["gamepad"].pressed:
-			checkBoxContainer.options["keyboard_mouse"].pressed = true
-	else:
-		checkBoxContainer.options["gamepad"].disabled = false
-
-
-func _on_joy_availibility_changed(available):
-	if available:
-		checkBoxContainer.options["gamepad"].disabled = false
-	else:
-		checkBoxContainer.options["gamepad"].disabled = true
-		checkBoxContainer.options["gamepad"].pressed = false
-
-
-#func _on_HCheckBoxContainer_option_changed(mode):
-#	description.text = INPUT_DESC[mode]
-#	InputConfig.active_mode = mode
-#
-##	var config_file = InputConfig.load_config()
-##	config_file.set_value("mode", "name", mode)
-##	config_file.save(InputConfig.CONFIG_FILE)
-#
-##	InputConfig.update_bindings(mode, config_file)
-#	update_buttons(false)
 
 
 func _on_BackButton_pressed():
@@ -191,19 +143,10 @@ func _on_BackButton_pressed():
 
 
 func _on_ResetButton_pressed():
-#	var config_file = InputConfig.load_config()
-#	var defaults_file = InputConfig.load_defaults()
-#	var mode = checkBoxContainer.current_option
-#	InputConfig.active_mode = checkBoxContainer.current_option
 	InputConfig.reset()
-#	config_file = InputConfig.set_mode_defaults(mode, config_file, defaults_file)
-#	config_file.save(InputConfig.CONFIG_FILE)
-#
-#	InputConfig.update_bindings(mode, config_file)
 	update_buttons(false)
 
 
 func _on_input_mode_changed(mode):
-	checkBoxContainer.options[mode].pressed = true
 	description.text = INPUT_DESC[mode]
 	update_buttons(false)

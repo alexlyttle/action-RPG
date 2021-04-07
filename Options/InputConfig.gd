@@ -1,8 +1,8 @@
 extends Object
 #class_name InputConfig
 
-const CONFIG_FILE = "user://controls.cfg"
-const DEFAULTS_FILE = "res://Options/controls_defaults.cfg"
+const CONFIG_FILE = "user://input.cfg"
+const DEFAULTS_FILE = "res://Options/input.cfg"
 const DELIMITER = ","
 
 var active_mode = null setget set_mode
@@ -12,18 +12,26 @@ signal on_joy_availibility_changed
 
 
 func set_mode(value):
-	active_mode = value
-	var config = load_config()
-	config.set_value("mode", "name", active_mode)
-	config.save(CONFIG_FILE)
-	update_bindings(active_mode, config)
-	emit_signal("on_input_mode_changed", active_mode)
+	if value != active_mode:
+		# Only do this if value changes
+		active_mode = value
+		var config = load_config()
+		config.set_value("mode", "name", active_mode)
+		config.save(CONFIG_FILE)
+		update_bindings(active_mode, config)
+		emit_signal("on_input_mode_changed", active_mode)
+
+
+func update_inputmap(action, event):
+	for old_event in InputMap.get_action_list(action):
+		InputMap.action_erase_event(action, old_event)
+	InputMap.action_add_event(action, event)
 
 
 func update_bindings(mode, config):
-	for action_name in config.get_section_keys(mode):
+	for action in config.get_section_keys(mode):
 		# Get the key scancode corresponding to the saved human-readable string
-		var string = config.get_value(mode, action_name)
+		var string = config.get_value(mode, action)
 		var string_array = string.split(DELIMITER, true, 0)
 		var type = string_array[0]
 		var value = string_array[1]
@@ -47,9 +55,7 @@ func update_bindings(mode, config):
 		else:
 			return
 		# Replace old action (key) events by the new one
-		for old_event in InputMap.get_action_list(action_name):
-			InputMap.action_erase_event(action_name, old_event)
-		InputMap.action_add_event(action_name, event)
+		update_inputmap(action, event)
 
 
 func set_mode_defaults(mode, config, defaults):
@@ -101,9 +107,9 @@ func load_config():
 	return config
 
 
-func save(section, key, value):
+func save(key, value):
 	var config = load_config()
-	config.set_value(section, key, value)
+	config.set_value(active_mode, key, value)
 	config.save(CONFIG_FILE)
 
 
@@ -122,7 +128,7 @@ func _ready():
 	Input.connect("joy_connection_changed", self, "_joy_connection_changed")
 
 
-func _joy_connection_changed(id, connected):
+func _joy_connection_changed(_id, _connected):
 	var connected_joypads = Input.get_connected_joypads()
 	if connected_joypads.size() == 0:
 		if active_mode == "gamepad":

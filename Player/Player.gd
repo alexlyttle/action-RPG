@@ -27,12 +27,25 @@ onready var swordHitbox = $HitboxPivot/SwordHitbox
 onready var hurtbox = $Hurtbox
 onready var flickerAnimationPlayer = $FlickerAnimationPlayer
 
-#onready var animationPlayer = get_parent().get_node("Smoothing2D/AnimationPlayer")  # Variable created when Player node is ready
-#onready var animationTree = get_parent().get_node("Smoothing2D/AnimationTree")
-#onready var animationState = animationTree.get("parameters/playback")
-#onready var swordHitbox = $HitboxPivot/SwordHitbox
-#onready var hurtbox = $Hurtbox
-#onready var flickerAnimationPlayer = get_parent().get_node("Smoothing2D/FlickerAnimationPlayer")
+
+func save_children():
+	var children = get_children()
+	var save_array = []
+	for child in children:
+		if child.is_in_group("Save"):
+			save_array.append(child.save())
+	return save_array
+
+
+func save():
+	var save_dict = {
+		"filename": get_filename(),
+		"parent": get_parent().get_path(),
+		"children": save_children(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y
+	}
+	return save_dict
 
 
 func get_input_vector():
@@ -126,7 +139,7 @@ func _ready():
 	stats.connect("no_health", self, "queue_free")	
 	animationTree.active = true
 	swordHitbox.knockback_vector = roll_vector  # Starts facing left like roll_vector
-	
+
 #	var config_file = InputConfig.load_config()
 #	mode = config_file.get_value("mode", "name")
 #	InputConfig.update_bindings(mode, config_file)

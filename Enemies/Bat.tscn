@@ -102,6 +102,7 @@ speed = 40
 material = SubResource( 1 )
 frames = SubResource( 7 )
 animation = "Fly"
+frame = 4
 playing = true
 offset = Vector2( 0, -12 )
 

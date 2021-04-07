@@ -23,11 +23,13 @@ _global_script_class_icons={
 config/name="Action RPG"
 run/main_scene="res://StartMenu.tscn"
 config/icon="res://icon.png"
+config/version="0.0.1"
 
 [autoload]
 
 PlayerStats="*res://Player/PlayerStats.tscn"
 InputConfig="*res://Options/InputConfig.tscn"
+SaveGame="*res://SaveGame.tscn"
 
 [display]
 

@@ -1,36 +1,31 @@
 extends HBoxContainer
 
-var current_option = null setget set_current_option  # Keep track of current option
-
-onready var options = {
+onready var checkboxes = {
 		"keyboard_mouse": $KeyboardMouseCheckBox,
 		"keyboard_only": $KeyboardCheckBox,
 		"gamepad": $GamepadCheckBox
 	}
 
-signal option_changed(option)
 
-
-func set_current_option(value):
-	if value != null and value != current_option:
-		InputConfig.active_mode = value
-#		emit_signal("option_changed", value)  # Emit option checked
-	current_option = value
-
-
-func uncheck_noncurrent_boxes(toggle_box):
-	for box in options.values():
-		if box.pressed and box != toggle_box:
+func uncheck_noncurrent_boxes(current_checkbox):
+	for box in checkboxes.values():
+		if box.pressed and box != current_checkbox:
 			box.pressed = false
 
 
-func toggle(toggle_option):
-	var toggle_box = options[toggle_option]
-	if toggle_box.pressed:
-		self.current_option = toggle_option
-		uncheck_noncurrent_boxes(toggle_box)
+func toggle(new_mode):
+	var current_checkbox = checkboxes[new_mode]
+	if current_checkbox.pressed:
+		InputConfig.active_mode = new_mode  # This handles updating bindings
+		uncheck_noncurrent_boxes(current_checkbox)
 	else:
-		toggle_box.pressed = true  # Ensure box remains pressed
+		current_checkbox.pressed = true  # Ensure box remains pressed
+
+
+func _ready():
+	checkboxes[InputConfig.active_mode].pressed = true
+	InputConfig.connect("on_joy_availibility_changed", self, "_on_joy_availibility_changed")
+	InputConfig._joy_connection_changed(null, false)  # Disconnect null controller to check if any connected
 
 
 func _on_KeyboardMouseCheckBox_pressed():
@@ -43,3 +38,11 @@ func _on_KeyboardCheckBox_pressed():
 
 func _on_GamepadCheckBox_pressed():
 	toggle("gamepad")
+
+
+func _on_joy_availibility_changed(available):
+	if available:
+		checkboxes["gamepad"].disabled = false
+	else:
+		checkboxes["gamepad"].disabled = true
+		checkboxes["gamepad"].pressed = false

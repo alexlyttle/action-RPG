@@ -11,7 +11,7 @@ func _input(event):
 
 
 func _on_ControlsButton_pressed():
-	get_tree().change_scene("res://Options/Controls.tscn")
+	get_tree().change_scene("res://Options/Options.tscn")
 
 
 func _on_BackButton_pressed():

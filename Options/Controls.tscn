@@ -423,6 +423,5 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="option_changed" from="CenterContainer/VBoxContainer/HCheckBoxContainer" to="." method="_on_HCheckBoxContainer_option_changed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HButtonContainer/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HButtonContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
