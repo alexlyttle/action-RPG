@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Options/Controls.gd" type="Script" id=1]
 [ext_resource path="res://Background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Options/HCheckBoxContainer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/BackButtonShortCut.tres" type="ShortCut" id=4]
 
 [node name="Controls" type="Control"]
 margin_right = 320.0
@@ -393,6 +394,7 @@ alignment = 1
 margin_left = 91.0
 margin_right = 120.0
 margin_bottom = 12.0
+shortcut = ExtResource( 4 )
 text = "Back"
 
 [node name="ResetButton" type="Button" parent="CenterContainer/VBoxContainer/HButtonContainer"]

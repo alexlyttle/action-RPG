@@ -236,6 +236,13 @@ position = Vector2( 608, 432 )
 
 [node name="UI" parent="." instance=ExtResource( 8 )]
 
+[node name="WorldMenu" parent="UI" index="1"]
+visible = false
+
+[node name="CenterContainer" parent="UI/WorldMenu" index="0"]
+visible = true
+[connection signal="pressed" from="UI/WorldMenu/CenterContainer/VBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
+
 [editable path="Foreground/Player"]
 
 [editable path="Camera2D"]

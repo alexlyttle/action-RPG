@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
+}, {
+"base": "ShortCut",
+"class": "ShortCutMod",
+"language": "GDScript",
+"path": "res://UI/ShortCutMod.gd"
 } ]
 _global_script_class_icons={
-"GitAPI": ""
+"GitAPI": "",
+"ShortCutMod": ""
 }
 
 [application]

@@ -7,7 +7,7 @@ const SPECIAL_KEYS = {
 	POS_X = "pos_x",
 	POS_Y = "pos_y",
 	CHILDREN = "children"
-}
+}  # All other keys are node variables to be set
 const PASS = "test"
 
 enum {
@@ -15,7 +15,7 @@ enum {
 	NEW
 }
 
-var state = NEW setget set_state
+var state = NEW setget set_state  # Keep track of whether starting a new game or continuing
 
 signal changed_state
 
@@ -26,6 +26,7 @@ func set_state(value):
 
 
 func save_children(node):
+	# Call save for all children of node in the SaveNode group
 	var children = node.get_children()
 	var save_array = []
 	for child in children:
@@ -35,29 +36,32 @@ func save_children(node):
 
 
 func _add_child_nodes(parent, node_data):
-
+	# Add child nodes to the parent. Recursive if the child also has child nodes
+	# to load.
 	var node_name = node_data[SPECIAL_KEYS.NAME]
 	var new_node = parent.get_node_or_null(node_name)
+
 	if new_node == null:
+		# If node does not exist, create a new one with the same name
 		new_node = load(node_data[SPECIAL_KEYS.FILENAME]).instance()
 		new_node.name = node_name
 		parent.add_child(new_node)
 
 	if SPECIAL_KEYS.POS_X in node_data.keys() and SPECIAL_KEYS.POS_X in node_data.keys():
+		# If position keys available, modify the node's position
 		new_node.position = Vector2(node_data[SPECIAL_KEYS.POS_X], node_data[SPECIAL_KEYS.POS_Y])
 	
 	for key in node_data.keys():
+		# Loop through keys and set values to node
 		if not key in SPECIAL_KEYS.values():
-			print(key)
 			new_node.set(key, node_data[key])
-			print(new_node.get(key))
 	
 	for child_node_data in node_data[SPECIAL_KEYS.CHILDREN]:
+		# Do the same as above for children of new_node
 		_add_child_nodes(new_node, child_node_data)
 
 
 func _add_nodes(node_data):
-	print(node_data[SPECIAL_KEYS.PARENT])
 	var parent = get_node(node_data[SPECIAL_KEYS.PARENT])
 	_add_child_nodes(parent, node_data)
 

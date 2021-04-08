@@ -4,11 +4,14 @@ const SAVE_PATH = "user://world.dat"  # Make this a directory for many worlds
 
 var options = null  # track the previous scene
 
+onready var centerContainer = $CenterContainer
 onready var continueButton = $CenterContainer/VBoxContainer/VButtonContainer/ContinueButton
 onready var newGameButton = $CenterContainer/VBoxContainer/VButtonContainer/NewGameButton
 
 
 func refresh():
+	centerContainer.show()
+
 	var save_game = File.new()
 	if save_game.file_exists(SAVE_PATH):
 		continueButton.grab_focus()
@@ -37,6 +40,8 @@ func _on_OptionsButton_pressed():
 	options = load("res://Options/Options.tscn").instance()
 	add_child(options)
 	options.connect("back_button_pressed", self, "_close_options")
+	centerContainer.hide()
+	
 
 
 func _on_NewGameButton_pressed():
