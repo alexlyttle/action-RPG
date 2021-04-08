@@ -1,6 +1,7 @@
 extends Node
 
 const SPECIAL_KEYS = {
+	NAME = "name",
 	FILENAME = "filename", 
 	PARENT = "parent",
 	POS_X = "pos_x",
@@ -24,11 +25,26 @@ func set_state(value):
 	emit_signal("changed_state", value)
 
 
+func save_children(node):
+	var children = node.get_children()
+	var save_array = []
+	for child in children:
+		if child.is_in_group("SaveNode"):
+			save_array.append(child.save())
+	return save_array
+
+
 func _add_child_nodes(parent, node_data):
-	var new_node = load(node_data[SPECIAL_KEYS.FILENAME]).instance()
-	parent.add_child(new_node)
-	
-	new_node.position = Vector2(node_data[SPECIAL_KEYS.POS_X], node_data[SPECIAL_KEYS.POS_Y])
+
+	var node_name = node_data[SPECIAL_KEYS.NAME]
+	var new_node = parent.get_node_or_null(node_name)
+	if new_node == null:
+		new_node = load(node_data[SPECIAL_KEYS.FILENAME]).instance()
+		new_node.name = node_name
+		parent.add_child(new_node)
+
+	if SPECIAL_KEYS.POS_X in node_data.keys() and SPECIAL_KEYS.POS_X in node_data.keys():
+		new_node.position = Vector2(node_data[SPECIAL_KEYS.POS_X], node_data[SPECIAL_KEYS.POS_Y])
 	
 	for key in node_data.keys():
 		if not key in SPECIAL_KEYS.values():
@@ -51,13 +67,13 @@ func load_game(path):
 	if not save_game.file_exists(path):
 		return
 	
-	var save_nodes = get_tree().get_nodes_in_group("SaveParents")
-	for node in save_nodes:
-		node.queue_free()  # Make sure we free nodes to load
-	yield(get_tree(), "idle_frame")  # Wait until idle frame to continue
+#	var save_nodes = get_tree().get_nodes_in_group("SaveParents")
+#	for node in save_nodes:
+#		node.queue_free()  # Make sure we free nodes to load
+#	yield(get_tree(), "idle_frame")  # Wait until idle frame to continue
 	# This solves the issue of not freeing all save nodes
 	
-	var err = save_game.open_encrypted_with_pass(path, File.READ, PASS)
+	var err = save_game.open(path, File.READ)
 	if err != OK:
 		return
 	
@@ -72,8 +88,8 @@ func load_game(path):
 
 func save_game(path):
 	var save_game = File.new()
-	save_game.open_encrypted_with_pass(path, File.WRITE, PASS)
-	var save_nodes = get_tree().get_nodes_in_group("SaveParents")
+	save_game.open(path, File.WRITE)
+	var save_nodes = get_tree().get_nodes_in_group("SaveBranch")
 	
 	for node in save_nodes:
 		# Check the node is an instanced scene so it can be instanced again during load.

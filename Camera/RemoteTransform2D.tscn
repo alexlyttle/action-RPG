@@ -2,8 +2,6 @@
 
 [ext_resource path="res://Camera/RemoteTransform2D.gd" type="Script" id=1]
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" groups=[
-"Save",
-]]
+[node name="RemoteTransform2D" type="RemoteTransform2D"]
 remote_path = NodePath("../../../Camera2D")
 script = ExtResource( 1 )

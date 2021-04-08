@@ -27,7 +27,6 @@ config/version="0.0.1"
 
 [autoload]
 
-PlayerStats="*res://Player/PlayerStats.tscn"
 InputConfig="*res://Options/InputConfig.tscn"
 SaveGame="*res://SaveGame.tscn"
 

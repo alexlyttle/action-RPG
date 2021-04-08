@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -7,11 +7,13 @@
 [ext_resource path="res://World/CliffTileset.tres" type="TileSet" id=5]
 [ext_resource path="res://World/Grass.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=7]
-[ext_resource path="res://UI/HealthUI.tscn" type="PackedScene" id=8]
+[ext_resource path="res://UI/UI.tscn" type="PackedScene" id=8]
 [ext_resource path="res://World/Tree.tscn" type="PackedScene" id=9]
 [ext_resource path="res://World.gd" type="Script" id=10]
 [ext_resource path="res://Camera2D.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Camera/RemoteTransform2D.tscn" type="PackedScene" id=12]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=1]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 10 )
@@ -37,10 +39,17 @@ tile_data = PoolIntArray( -458761, 1, 4, -458760, 1, 196609, -458759, 1, 196609,
 
 [node name="Foreground" type="YSort" parent="."]
 
-[node name="Player" parent="Foreground" instance=ExtResource( 2 )]
+[node name="Player" parent="Foreground" groups=[
+"SaveBranch",
+] instance=ExtResource( 2 )]
 position = Vector2( 160, 96 )
 
-[node name="RemoteTransform2D" parent="Foreground/Player" instance=ExtResource( 12 )]
+[node name="AnimationTree" parent="Foreground/Player" index="4"]
+parameters/playback = SubResource( 1 )
+
+[node name="RemoteTransform2D" parent="Foreground/Player" groups=[
+"SaveNode",
+] instance=ExtResource( 12 )]
 
 [node name="Trees" type="YSort" parent="Foreground"]
 
@@ -225,12 +234,10 @@ position = Vector2( -288, -256 )
 [node name="BottomRight" parent="Camera2D/Limits" index="1"]
 position = Vector2( 608, 432 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" parent="." instance=ExtResource( 8 )]
 
-[node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 69.0
-margin_bottom = 20.0
+[editable path="Foreground/Player"]
 
 [editable path="Camera2D"]
+
+[editable path="UI"]

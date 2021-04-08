@@ -16,8 +16,8 @@ enum {
 var state = MOVE
 var velocity = Vector2.ZERO
 var roll_vector = Vector2.DOWN  # Matches defaults in AnimationTree
-var stats = PlayerStats  # Accesses the global autoload singleton (alternatively, look into using Resourses or JSON files)
-var mode = null
+#var stats = PlayerStats  # Accesses the global autoload singleton (alternatively, look into using Resourses or JSON files)
+
 #var config = load("res://Options/Config.gd").new()
 
 onready var animationPlayer = $AnimationPlayer  # Variable created when Player node is ready
@@ -26,22 +26,24 @@ onready var animationState = animationTree.get("parameters/playback")
 onready var swordHitbox = $HitboxPivot/SwordHitbox
 onready var hurtbox = $Hurtbox
 onready var flickerAnimationPlayer = $FlickerAnimationPlayer
+onready var stats = $Stats
 
-
-func save_children():
-	var children = get_children()
-	var save_array = []
-	for child in children:
-		if child.is_in_group("Save"):
-			save_array.append(child.save())
-	return save_array
+#
+#func save_children():
+#	var children = get_children()
+#	var save_array = []
+#	for child in children:
+#		if child.is_in_group("Save"):
+#			save_array.append(child.save())
+#	return save_array
 
 
 func save():
 	var save_dict = {
+		"name": get_name(),
 		"filename": get_filename(),
 		"parent": get_parent().get_path(),
-		"children": save_children(),
+		"children": SaveGame.save_children(self),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
 		"pos_y" : position.y
 	}
@@ -136,14 +138,10 @@ func roll_animation_finished():
 
 func _ready():
 	# Called when the node enters the scene tree for the first time.
-	stats.connect("no_health", self, "queue_free")	
+	stats.connect("no_health", self, "queue_free")
 	animationTree.active = true
 	swordHitbox.knockback_vector = roll_vector  # Starts facing left like roll_vector
 
-#	var config_file = InputConfig.load_config()
-#	mode = config_file.get_value("mode", "name")
-#	InputConfig.update_bindings(mode, config_file)
-#	var config = Config.load_config()
 
 func _physics_process(delta):
 	# Note: Use the _physics_process to access physics of the KinematicBody2D - e.g. move_and_slide

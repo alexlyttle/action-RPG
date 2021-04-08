@@ -11,11 +11,24 @@ signal health_changed(value)  # Signal can take arguments
 signal max_health_changed(value)
 
 
+func save():
+	var save_dict = {
+		"name": get_name(),
+		"filename": get_filename(),
+		"parent": get_parent().get_path(),
+		"children": [],
+		"max_health": max_health,
+		"health": health,
+	}
+	return save_dict
+
+
 func set_health(value):
 	# This funtion is called when the parent tries stats.health -= 1
 	# The parent is calling down to stats, and we signal up when health <= 0
 	health = clamp(value, 0, max_health)
 	emit_signal("health_changed", health)
+	print("emit signal")
 	if health <= 0:
 		emit_signal("no_health")
 
@@ -28,3 +41,4 @@ func set_max_health(value):
 
 func _ready():
 	self.health = max_health
+

@@ -26,6 +26,8 @@ onready var gameplayBindings = $CenterContainer/VBoxContainer/bindings/HBoxConta
 onready var uiBindings = $CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface
 onready var popupPanel = $PopupPanel
 
+signal back_button_pressed
+
 
 func wait_for_input(action_bind, binding_node):
 	action = action_bind
@@ -47,14 +49,6 @@ func process_input():
 #	set_process_input(false)
 	binding = false
 	display_help()
-
-
-#func update_inputmap(event):
-#	# Start by removing previously key binding(s)
-#	for old_event in InputMap.get_action_list(action):
-#		InputMap.action_erase_event(action, old_event)
-#	# Add the new key binding
-#	InputMap.action_add_event(action, event)
 
 
 func axis_sign(axis_value):
@@ -99,8 +93,9 @@ func _input(event):
 					popupPanel.popup_centered(Vector2.ZERO)
 	else:
 		# When not binging, the ui_back action will take us back
-		if event.is_action_pressed("ui_back"):
-			_on_BackButton_pressed()
+#		if event.is_action_pressed("ui_back"):
+#			_on_BackButton_pressed()
+		pass
 
 
 func init_button(action_name, binding_node, first_time):
@@ -139,7 +134,8 @@ func _ready():
 
 
 func _on_BackButton_pressed():
-	get_tree().change_scene("res://Options/Options.tscn")
+#	get_tree().change_scene("res://Options/Options.tscn")
+	emit_signal("back_button_pressed")
 
 
 func _on_ResetButton_pressed():

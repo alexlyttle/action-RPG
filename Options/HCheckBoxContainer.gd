@@ -46,3 +46,4 @@ func _on_joy_availibility_changed(available):
 	else:
 		checkboxes["gamepad"].disabled = true
 		checkboxes["gamepad"].pressed = false
+		checkboxes["keyboard_mouse"].pressed = true

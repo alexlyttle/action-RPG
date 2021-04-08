@@ -3,6 +3,7 @@ extends RemoteTransform2D
 
 func save():
 	var save_dict = {
+		"name": get_name(),
 		"filename": get_filename(),
 		"parent": get_parent().get_path(),
 		"children": [],
