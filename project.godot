@@ -35,7 +35,6 @@ config/version="0.0.1"
 
 InputConfig="*res://Options/InputConfig.tscn"
 SaveGame="*res://SaveGame.tscn"
-AudioManager="*res://Music and Sounds/AudioManager.tscn"
 
 [display]
 

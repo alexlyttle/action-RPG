@@ -1,10 +1,34 @@
 extends CenterContainer
 
 const FOCUS = [
-	"ui_focus_left", "ui_focus_right", "ui_left", "ui_right", "ui_up", "ui_down"
+	"ui_focus_prev", "ui_focus_next", "ui_left", "ui_right", "ui_up", "ui_down"
 ]
 
 var first_event_handled = false
+
+onready var moveStreamPlayer = $MoveStreamPlayer
+onready var selectStreamPlayer = $SelectStreamPlayer
+
+
+func init_button_audio(parent):
+	for node in parent.get_children():
+		if node is Button:
+#			print(node.name)
+			node.connect("focus_entered", self, "_play_menu_move")
+			node.connect("mouse_entered", self, "_play_menu_move")
+			node.connect("pressed", self, "_play_menu_select")
+		else:
+			init_button_audio(node)
+
+
+func _play_menu_move():
+#	print("move")
+	moveStreamPlayer.play()
+
+
+func _play_menu_select():
+#	print("select")
+	selectStreamPlayer.play()
 
 
 func get_first_button(parent):
@@ -21,6 +45,7 @@ func get_first_button(parent):
 func _input(event):
 	if first_event_handled:
 		return
+
 	var condition = []
 	for f in FOCUS:
 		condition.append(event.is_action_released(f))
@@ -32,8 +57,10 @@ func _input(event):
 
 
 func _ready():
-	self.connect("draw", self, "_on_draw")
+	var _err = connect("visibility_changed", self, "_on_visibility_changed")
+	init_button_audio(self)
 
 
-func _on_draw():
-	first_event_handled = false
+func _on_visibility_changed():
+	if visible:
+		first_event_handled = false

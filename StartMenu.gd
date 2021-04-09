@@ -7,8 +7,6 @@ var options = null  # track the previous scene
 onready var menuContainer = $MenuContainer
 onready var continueButton = $MenuContainer/VBoxContainer/VButtonContainer/ContinueButton
 onready var newGameButton = $MenuContainer/VBoxContainer/VButtonContainer/NewGameButton
-onready var menuMoveStreamPlayer = $MenuMoveStreamPlayer
-onready var menuSelectStreamPlayer = $MenuSelectStreamPlayer
 
 
 func refresh():
@@ -31,7 +29,7 @@ func init_button_audio(parent):
 
 func _ready():
 	refresh()
-	AudioManager.init_button_audio(menuContainer)
+#	AudioManager.init_button_audio(menuContainer)
 
 #func _input(event):
 #	if event.is_action_pressed("ui_back") or event.is_action_pressed("ui_cancel"):
@@ -54,13 +52,13 @@ func _on_OptionsButton_pressed():
 
 func _on_NewGameButton_pressed():
 	SaveGame.state = SaveGame.NEW
-	get_tree().change_scene("res://World.tscn")
+	var _err = get_tree().change_scene("res://World.tscn")
 
 
 func _on_ContinueButton_pressed():
 	# Continue
 	SaveGame.state = SaveGame.CONTINUE
-	get_tree().change_scene("res://World.tscn")
+	var _err = get_tree().change_scene("res://World.tscn")
 
 
 func _close_options():

@@ -21,7 +21,8 @@ func open():
 
 func _ready():
 #	refresh()  # Don't refresh as this will show the center container
-	AudioManager.init_button_audio(menuContainer)
+#	AudioManager.init_button_audio(menuContainer)
+	pass
 
 
 func _on_ContinueButton_pressed():

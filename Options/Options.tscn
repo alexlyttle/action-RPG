@@ -53,4 +53,5 @@ shortcut = ExtResource( 3 )
 text = "Back"
 [connection signal="pressed" from="MenuContainer/VBoxContainer/VButtonContainer/ControlsButton" to="." method="_on_ControlsButton_pressed"]
 [connection signal="pressed" from="MenuContainer/VBoxContainer/VButtonContainer/SoundButton" to="." method="_on_SoundButton_pressed"]
+[connection signal="pressed" from="MenuContainer/VBoxContainer/VButtonContainer/GraphicsButton" to="." method="_on_GraphicsButton_pressed"]
 [connection signal="pressed" from="MenuContainer/VBoxContainer/VButtonContainer/BackButton" to="." method="_on_BackButton_pressed"]

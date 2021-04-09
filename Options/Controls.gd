@@ -27,7 +27,7 @@ onready var gameplayBindings = $MenuContainer/VBoxContainer/bindings/HBoxContain
 onready var uiBindings = $MenuContainer/VBoxContainer/bindings/HBoxContainer/UserInterface
 onready var popupPanel = $PopupPanel
 
-signal back_button_pressed
+#signal back_button_pressed
 
 
 func wait_for_input(action_bind, binding_node):
@@ -132,12 +132,13 @@ func _ready():
 	display_help()
 
 	InputConfig.connect("on_input_mode_changed", self, "_on_input_mode_changed")
-	AudioManager.init_button_audio(menuContainer)
+#	AudioManager.init_button_audio(menuContainer)
 
 
 func _on_BackButton_pressed():
 #	get_tree().change_scene("res://Options/Options.tscn")
-	emit_signal("back_button_pressed")
+#	emit_signal("back_button_pressed")
+	queue_free()
 
 
 func _on_ResetButton_pressed():

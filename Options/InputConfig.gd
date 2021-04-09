@@ -125,7 +125,7 @@ func _ready():
 	
 	update_bindings(active_mode, config)
 
-	Input.connect("joy_connection_changed", self, "_joy_connection_changed")
+	var _err = Input.connect("joy_connection_changed", self, "_joy_connection_changed")
 
 
 func _joy_connection_changed(_id, _connected):
