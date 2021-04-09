@@ -20,10 +20,11 @@ var binding
 var cancel_event = InputMap.get_action_list(CANCEL_ACTION)[0]  # Assume first in list
 var cancel_scancode = OS.get_scancode_string(cancel_event.scancode)
 
-onready var checkBoxContainer = $CenterContainer/VBoxContainer/HCheckBoxContainer
-onready var description = $CenterContainer/VBoxContainer/Description
-onready var gameplayBindings = $CenterContainer/VBoxContainer/bindings/HBoxContainer/Gameplay
-onready var uiBindings = $CenterContainer/VBoxContainer/bindings/HBoxContainer/UserInterface
+onready var menuContainer = $MenuContainer
+onready var checkBoxContainer = $MenuContainer/VBoxContainer/HCheckBoxContainer
+onready var description = $MenuContainer/VBoxContainer/Description
+onready var gameplayBindings = $MenuContainer/VBoxContainer/bindings/HBoxContainer/Gameplay
+onready var uiBindings = $MenuContainer/VBoxContainer/bindings/HBoxContainer/UserInterface
 onready var popupPanel = $PopupPanel
 
 signal back_button_pressed
@@ -33,13 +34,13 @@ func wait_for_input(action_bind, binding_node):
 	action = action_bind
 	# See note at the beginning of the script
 	button = binding_node.get_node(action).get_node("Button")
-	get_node("CenterContainer/VBoxContainer/contextual_help").text = "Press a key to assign to the '" + action + "' action."
+	get_node("MenuContainer/VBoxContainer/contextual_help").text = "Press a key to assign to the '" + action + "' action."
 #	set_process_input(true)
 	binding = true
 
 
 func display_help():
-	get_node("CenterContainer/VBoxContainer/contextual_help").text = \
+	get_node("MenuContainer/VBoxContainer/contextual_help").text = \
 		"Click a key binding to reassign it, or press " + cancel_scancode + \
 		" to cancel."
 
@@ -126,11 +127,12 @@ func update_buttons(first_time):
 func _ready():
 	# Load config if existing, if not it will be generated with default values
 	binding = false  # Not currently binding
-	checkBoxContainer.get_node("KeyboardMouseCheckBox").grab_focus()
+#	checkBoxContainer.get_node("KeyboardMouseCheckBox").grab_focus()
 	update_buttons(true)  # Update buttons for the first time
 	display_help()
 
 	InputConfig.connect("on_input_mode_changed", self, "_on_input_mode_changed")
+	AudioManager.init_button_audio(menuContainer)
 
 
 func _on_BackButton_pressed():

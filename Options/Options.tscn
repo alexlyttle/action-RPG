@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Background.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Options/Options.gd" type="Script" id=2]
 [ext_resource path="res://UI/BackButtonShortCut.tres" type="ShortCut" id=3]
+[ext_resource path="res://UI/MenuContainer.tscn" type="PackedScene" id=5]
 
 [node name="Options" type="Control"]
 margin_right = 320.0
@@ -13,43 +14,43 @@ __meta__ = {
 }
 
 [node name="Background" parent="." instance=ExtResource( 1 )]
+visible = false
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_right = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="MenuContainer" parent="." instance=ExtResource( 5 )]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 140.0
-margin_top = 68.0
-margin_right = 179.0
-margin_bottom = 112.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer"]
+margin_left = 139.0
+margin_top = 60.0
+margin_right = 180.0
+margin_bottom = 120.0
 
-[node name="VButtonContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
-margin_right = 39.0
-margin_bottom = 44.0
+[node name="VButtonContainer" type="VBoxContainer" parent="MenuContainer/VBoxContainer"]
+margin_right = 41.0
+margin_bottom = 60.0
 
-[node name="ControlsButton" type="Button" parent="CenterContainer/VBoxContainer/VButtonContainer"]
-margin_right = 39.0
+[node name="ControlsButton" type="Button" parent="MenuContainer/VBoxContainer/VButtonContainer"]
+margin_right = 41.0
 margin_bottom = 12.0
 text = "Controls"
 
-[node name="SoundButton" type="Button" parent="CenterContainer/VBoxContainer/VButtonContainer"]
+[node name="SoundButton" type="Button" parent="MenuContainer/VBoxContainer/VButtonContainer"]
 margin_top = 16.0
-margin_right = 39.0
+margin_right = 41.0
 margin_bottom = 28.0
 text = "Sound"
 
-[node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer/VButtonContainer"]
+[node name="GraphicsButton" type="Button" parent="MenuContainer/VBoxContainer/VButtonContainer"]
 margin_top = 32.0
-margin_right = 39.0
+margin_right = 41.0
 margin_bottom = 44.0
+text = "Graphics"
+
+[node name="BackButton" type="Button" parent="MenuContainer/VBoxContainer/VButtonContainer"]
+margin_top = 48.0
+margin_right = 41.0
+margin_bottom = 60.0
 shortcut = ExtResource( 3 )
 text = "Back"
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VButtonContainer/ControlsButton" to="." method="_on_ControlsButton_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VButtonContainer/SoundButton" to="." method="_on_SoundButton_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VButtonContainer/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MenuContainer/VBoxContainer/VButtonContainer/ControlsButton" to="." method="_on_ControlsButton_pressed"]
+[connection signal="pressed" from="MenuContainer/VBoxContainer/VButtonContainer/SoundButton" to="." method="_on_SoundButton_pressed"]
+[connection signal="pressed" from="MenuContainer/VBoxContainer/VButtonContainer/BackButton" to="." method="_on_BackButton_pressed"]

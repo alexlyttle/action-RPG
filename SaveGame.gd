@@ -1,5 +1,6 @@
 extends Node
 
+const SAVE_PATH = "user://world.dat"
 const SPECIAL_KEYS = {
 	NAME = "name",
 	FILENAME = "filename", 

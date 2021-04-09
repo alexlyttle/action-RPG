@@ -4,25 +4,34 @@ const SAVE_PATH = "user://world.dat"  # Make this a directory for many worlds
 
 var options = null  # track the previous scene
 
-onready var centerContainer = $CenterContainer
-onready var continueButton = $CenterContainer/VBoxContainer/VButtonContainer/ContinueButton
-onready var newGameButton = $CenterContainer/VBoxContainer/VButtonContainer/NewGameButton
+onready var menuContainer = $MenuContainer
+onready var continueButton = $MenuContainer/VBoxContainer/VButtonContainer/ContinueButton
+onready var newGameButton = $MenuContainer/VBoxContainer/VButtonContainer/NewGameButton
+onready var menuMoveStreamPlayer = $MenuMoveStreamPlayer
+onready var menuSelectStreamPlayer = $MenuSelectStreamPlayer
 
 
 func refresh():
-	centerContainer.show()
-
+	menuContainer.show()
+#	menuContainer.grab_focus()
 	var save_game = File.new()
-	if save_game.file_exists(SAVE_PATH):
-		continueButton.grab_focus()
-	else:
+	if not save_game.file_exists(SAVE_PATH):
 		continueButton.disabled = true
-		newGameButton.grab_focus()
+
+
+func init_button_audio(parent):
+	for node in parent.get_children():
+		if node is Button:
+			node.connect("focus_entered", self, "_play_menu_move")
+			node.connect("mouse_entered", self, "_play_menu_move")
+			node.connect("pressed", self, "_play_menu_select")
+		else:
+			init_button_audio(node)
 
 
 func _ready():
 	refresh()
-
+	AudioManager.init_button_audio(menuContainer)
 
 #func _input(event):
 #	if event.is_action_pressed("ui_back") or event.is_action_pressed("ui_cancel"):
@@ -40,8 +49,7 @@ func _on_OptionsButton_pressed():
 	options = load("res://Options/Options.tscn").instance()
 	add_child(options)
 	options.connect("back_button_pressed", self, "_close_options")
-	centerContainer.hide()
-	
+	menuContainer.hide()
 
 
 func _on_NewGameButton_pressed():
@@ -59,3 +67,11 @@ func _close_options():
 	options.queue_free()
 	options = null
 	refresh()
+
+
+#func _play_menu_move():
+#	menuMoveStreamPlayer.play()
+#
+#
+#func _play_menu_select():
+#	menuSelectStreamPlayer.play()

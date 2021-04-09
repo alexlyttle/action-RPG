@@ -35,7 +35,3 @@ func _ready():
 #
 #	if event.is_action_pressed("ui_home"):
 #		SaveGame.load_game(SAVE_PATH)
-
-
-func _on_SaveButton_pressed():
-	SaveGame.save_game(SAVE_PATH)
