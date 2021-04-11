@@ -46,7 +46,7 @@ func update_state():
 func move_toward_position(target_position, delta):
 	var move_vector = global_position.direction_to(target_position).normalized()
 	velocity = velocity.move_toward(speed * move_vector, acceleration * delta)
-	body.flip_h = velocity.x < 0  # Flip bat to face velocity
+	body.flip_h = velocity.x < 0  # Flip to face velocity
 
 
 func _ready():

@@ -28,7 +28,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 1 ]
+"values": [ 4 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -71,7 +71,8 @@ texture = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-hframes = 4
+hframes = 5
+frame = 1
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 rotation = 1.5708
@@ -104,7 +105,7 @@ shape = SubResource( 5 )
 
 [node name="Hitbox" parent="HitboxPivot" instance=ExtResource( 8 )]
 rotation = 1.5708
-collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" parent="HitboxPivot/Hitbox" index="0"]
 position = Vector2( -1.09278e-06, -25 )
