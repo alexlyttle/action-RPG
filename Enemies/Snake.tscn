@@ -1,0 +1,119 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Enemies/Snake.png" type="Texture" id=1]
+[ext_resource path="res://Shadows/LargeShadow.png" type="Texture" id=2]
+[ext_resource path="res://Enemies/Snake.gd" type="Script" id=3]
+[ext_resource path="res://Stats.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Enemies/WanderController.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Enemies/PlayerDetectionZone.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Collisions/Hurtbox.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Collisions/Hitbox.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Collisions/SoftCollision.tscn" type="PackedScene" id=9]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 9.0
+height = 16.0
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Move"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 100.0
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 13.0
+height = 36.0
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 7.0
+
+[node name="Snake" type="KinematicBody2D"]
+collision_layer = 16
+script = ExtResource( 3 )
+
+[node name="ShadowSprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, 1 )
+scale = Vector2( 1.875, 0.7 )
+texture = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 4
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Idle = SubResource( 3 )
+anims/Move = SubResource( 2 )
+
+[node name="SoftCollision" parent="." instance=ExtResource( 9 )]
+
+[node name="Stats" parent="." instance=ExtResource( 4 )]
+max_health = 3
+
+[node name="PlayerDetectionZone" parent="." instance=ExtResource( 6 )]
+
+[node name="CollisionShape2D" parent="PlayerDetectionZone" index="0"]
+shape = SubResource( 4 )
+
+[node name="WanderController" parent="." instance=ExtResource( 5 )]
+
+[node name="Hurtbox" parent="." instance=ExtResource( 7 )]
+collision_layer = 8
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+rotation = 1.5708
+shape = SubResource( 5 )
+
+[node name="HitboxPivot" type="Position2D" parent="."]
+
+[node name="Hitbox" parent="HitboxPivot" instance=ExtResource( 8 )]
+rotation = 1.5708
+collision_layer = 4
+
+[node name="CollisionShape2D" parent="HitboxPivot/Hitbox" index="0"]
+position = Vector2( -1.09278e-06, -25 )
+shape = SubResource( 6 )
+[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+
+[editable path="PlayerDetectionZone"]
+
+[editable path="Hurtbox"]
+
+[editable path="HitboxPivot/Hitbox"]
