@@ -9,7 +9,8 @@ func _input(event):
 	if event.is_action_released("ui_start") or event.is_action_released("ui_cancel"):
 		get_tree().paused = true
 #		worldMenu.show()
-		worldMenu.open()
+#		worldMenu.open()
+		worldMenu.animationPlayer.play("FadeIn")
 
 #
 #func _on_ContinueButton_pressed():

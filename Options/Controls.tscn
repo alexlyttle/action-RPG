@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Options/Controls.gd" type="Script" id=1]
-[ext_resource path="res://Background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Options/HCheckBoxContainer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://UI/BackButtonShortCut.tres" type="ShortCut" id=4]
 [ext_resource path="res://UI/MenuContainer.tscn" type="PackedScene" id=5]
@@ -13,9 +12,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Background" parent="." instance=ExtResource( 2 )]
-visible = false
 
 [node name="MenuContainer" parent="." instance=ExtResource( 5 )]
 

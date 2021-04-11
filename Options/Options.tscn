@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Background.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Options/Options.gd" type="Script" id=2]
 [ext_resource path="res://UI/BackButtonShortCut.tres" type="ShortCut" id=3]
 [ext_resource path="res://UI/MenuContainer.tscn" type="PackedScene" id=5]
@@ -12,9 +11,6 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Background" parent="." instance=ExtResource( 1 )]
-visible = false
 
 [node name="MenuContainer" parent="." instance=ExtResource( 5 )]
 

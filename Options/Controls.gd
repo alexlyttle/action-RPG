@@ -1,4 +1,5 @@
-extends Control
+#extends Control
+extends Menu
 
 const INPUT_MODES = ["keyboard_mouse", "keyboard_only", "gamepad"]
 const INPUT_GAMEPLAY = ["attack", "roll", "camera_zoom_in", "camera_zoom_out", "move_up", "move_down", "move_left", "move_right"]
@@ -20,7 +21,7 @@ var binding
 var cancel_event = InputMap.get_action_list(CANCEL_ACTION)[0]  # Assume first in list
 var cancel_scancode = OS.get_scancode_string(cancel_event.scancode)
 
-onready var menuContainer = $MenuContainer
+#onready var menuContainer = $MenuContainer
 onready var checkBoxContainer = $MenuContainer/VBoxContainer/HCheckBoxContainer
 onready var description = $MenuContainer/VBoxContainer/Description
 onready var gameplayBindings = $MenuContainer/VBoxContainer/bindings/HBoxContainer/Gameplay
@@ -138,7 +139,8 @@ func _ready():
 func _on_BackButton_pressed():
 #	get_tree().change_scene("res://Options/Options.tscn")
 #	emit_signal("back_button_pressed")
-	queue_free()
+#	queue_free()
+	hide()
 
 
 func _on_ResetButton_pressed():

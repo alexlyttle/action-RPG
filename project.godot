@@ -14,14 +14,14 @@ _global_script_classes=[ {
 "language": "NativeScript",
 "path": "res://git_api.gdns"
 }, {
-"base": "ShortCut",
-"class": "ShortCutMod",
+"base": "Control",
+"class": "Menu",
 "language": "GDScript",
-"path": "res://UI/ShortCutMod.gd"
+"path": "res://UI/Menu.gd"
 } ]
 _global_script_class_icons={
 "GitAPI": "",
-"ShortCutMod": ""
+"Menu": ""
 }
 
 [application]
@@ -35,6 +35,7 @@ config/version="0.0.1"
 
 InputConfig="*res://Options/InputConfig.tscn"
 SaveGame="*res://SaveGame.tscn"
+SelectStreamPlayer="*res://Music and Sounds/SelectStreamPlayer.tscn"
 
 [display]
 

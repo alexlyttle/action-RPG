@@ -1,5 +1,4 @@
 extends Object
-#class_name InputConfig
 
 const CONFIG_FILE = "user://input.cfg"
 const DEFAULTS_FILE = "res://Options/input.cfg"
