@@ -714,7 +714,7 @@ graph_offset = Vector2( 0, -0.723793 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=46]
 
-[sub_resource type="Animation" id=49]
+[sub_resource type="Animation" id=47]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -730,7 +730,7 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=50]
+[sub_resource type="Animation" id=48]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:material:shader_param/active")
@@ -745,11 +745,11 @@ tracks/0/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="CapsuleShape2D" id=47]
+[sub_resource type="CapsuleShape2D" id=49]
 radius = 9.0
 height = 12.0
 
-[sub_resource type="CapsuleShape2D" id=48]
+[sub_resource type="CapsuleShape2D" id=50]
 radius = 5.0
 height = 4.0
 
@@ -800,8 +800,8 @@ parameters/Roll/blend_position = Vector2( 0, 1 )
 parameters/Run/blend_position = Vector2( 0, 1 )
 
 [node name="FlickerAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Start = SubResource( 49 )
-anims/Stop = SubResource( 50 )
+anims/Start = SubResource( 47 )
+anims/Stop = SubResource( 48 )
 
 [node name="HitboxPivot" type="Position2D" parent="."]
 visible = false
@@ -814,7 +814,7 @@ collision_mask = 8
 script = ExtResource( 4 )
 
 [node name="CollisionShape2D" parent="HitboxPivot/SwordHitbox" index="0"]
-shape = SubResource( 47 )
+shape = SubResource( 49 )
 disabled = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 5 )]
@@ -822,7 +822,7 @@ collision_layer = 2147483652
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2( 0, -4 )
-shape = SubResource( 48 )
+shape = SubResource( 50 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )

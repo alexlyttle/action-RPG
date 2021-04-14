@@ -25,6 +25,12 @@ func start_invincibility(duration):
 	timer.start(duration)
 
 
+func stop_invincibility():
+	# Hurtbox does not take damage for duration after hit
+	self.invincible = false
+	timer.stop()
+
+
 func create_hit_effect():
 	var hitEffect = HitEffect.instance()
 	hitEffect.global_position = global_position
