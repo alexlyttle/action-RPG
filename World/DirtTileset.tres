@@ -9,6 +9,8 @@ tool
 
 
 func _is_tile_bound(drawn_id, neighbor_id):
+	if drawn_id == 3 and neighbor_id == drawn_id:
+		return false
 	return neighbor_id in get_tiles_ids()
 #	print(tile_get_name(drawn_id))
 "
