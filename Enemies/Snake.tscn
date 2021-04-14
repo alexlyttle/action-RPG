@@ -1,6 +1,6 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://Enemies/Snake.png" type="Texture" id=1]
+[ext_resource path="res://Enemies/SmallSnake.png" type="Texture" id=1]
 [ext_resource path="res://Shadows/LargeShadow.png" type="Texture" id=2]
 [ext_resource path="res://Enemies/Snake.gd" type="Script" id=3]
 [ext_resource path="res://Stats.tscn" type="PackedScene" id=4]
@@ -11,10 +11,10 @@
 [ext_resource path="res://Collisions/SoftCollision.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 9.0
+radius = 4.99999
 height = 16.0
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Idle"
 length = 0.1
 loop = true
@@ -28,11 +28,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 4 ]
+"values": [ 3 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Move"
+[sub_resource type="Animation" id=3]
 length = 0.8
 loop = true
 step = 0.2
@@ -46,18 +45,35 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3 ]
+"values": [ 0, 1, 2, 1 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Startled"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 5 ]
 }
 
 [sub_resource type="CircleShape2D" id=4]
 radius = 100.0
 
 [sub_resource type="CapsuleShape2D" id=5]
-radius = 13.0
-height = 36.0
+radius = 5.99998
+height = 20.0
 
 [sub_resource type="CircleShape2D" id=6]
-radius = 7.0
+radius = 4.12311
 
 [node name="Snake" type="KinematicBody2D"]
 collision_layer = 16
@@ -71,16 +87,17 @@ texture = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-hframes = 5
-frame = 1
+hframes = 7
+frame = 4
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Idle = SubResource( 3 )
-anims/Move = SubResource( 2 )
+anims/Idle = SubResource( 2 )
+anims/Move = SubResource( 3 )
+anims/Startled = SubResource( 7 )
 
 [node name="SoftCollision" parent="." instance=ExtResource( 9 )]
 
@@ -101,6 +118,9 @@ collision_layer = 8
 rotation = 1.5708
 shape = SubResource( 5 )
 
+[node name="Timer" parent="Hurtbox" index="1"]
+process_mode = 0
+
 [node name="HitboxPivot" type="Position2D" parent="."]
 
 [node name="Hitbox" parent="HitboxPivot" instance=ExtResource( 8 )]
@@ -108,10 +128,14 @@ rotation = 1.5708
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="HitboxPivot/Hitbox" index="0"]
-position = Vector2( -1.09278e-06, -25 )
+position = Vector2( -4.3869e-05, -12 )
 shape = SubResource( 6 )
+
+[node name="StartledTimer" type="Timer" parent="."]
+process_mode = 0
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="timeout" from="StartledTimer" to="." method="_on_StartledTimer_timeout"]
 
 [editable path="PlayerDetectionZone"]
 

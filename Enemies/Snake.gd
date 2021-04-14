@@ -10,6 +10,7 @@ export(int) var avoidence_rate = 400
 
 enum {
 	IDLE,
+	STARTLED,
 	WANDER,
 	CHASE
 }
@@ -17,6 +18,7 @@ enum {
 var knockback = Vector2.ZERO
 var velocity = Vector2.ZERO
 var state = IDLE
+var collision
 
 onready var body = $Sprite
 onready var stats = $Stats
@@ -26,6 +28,10 @@ onready var softCollision = $SoftCollision
 onready var wanderController = $WanderController
 #onready var flickerAnimationPlayer = $FlickerAnimationPlayer
 onready var animationPlayer = $AnimationPlayer
+onready var hitboxPivot = $HitboxPivot
+onready var hitbox = $HitboxPivot/Hitbox
+onready var hitboxCollisionShape = $HitboxPivot/Hitbox/CollisionShape2D
+onready var startledTimer = $StartledTimer
 
 
 func seek_player():
@@ -47,10 +53,22 @@ func move_toward_position(target_position, delta):
 	var move_vector = global_position.direction_to(target_position).normalized()
 	velocity = velocity.move_toward(speed * move_vector, acceleration * delta)
 	body.flip_h = velocity.x < 0  # Flip to face velocity
+	hitboxPivot.rotation = float(velocity.x < 0) * PI
+
+
+func startled():
+	# TODO: Improve this with signals and setgets
+	state = STARTLED
+	startledTimer.start(1.0)
+	animationPlayer.play("Startled")
+	hurtbox.invincible = true
+	hitbox.set_deferred("monitorable", false)
+	hitboxCollisionShape.set_deferred("disabled", true)
 
 
 func _ready():
-	update_state()
+#	update_state()
+	startled()
 
 
 func _physics_process(delta):
@@ -59,11 +77,16 @@ func _physics_process(delta):
 
 	match state:
 		IDLE:
-			animationPlayer.play("Idle")
+			if velocity == Vector2.ZERO:
+				# Only play idle animation when velocity reaches zero
+				animationPlayer.play("Idle")
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 			seek_player()
 			if wanderController.get_time_left() == 0:
 				update_state()
+		
+		STARTLED:
+			velocity.move_toward(Vector2.ZERO, friction * delta)
 
 		WANDER:
 			animationPlayer.play("Move")
@@ -108,3 +131,11 @@ func _on_Stats_no_health():
 #
 #func _on_Hurtbox_invincibility_ended():
 #	flickerAnimationPlayer.play("Stop")
+
+
+func _on_StartledTimer_timeout():
+	update_state()
+	hurtbox.invincible = false
+	hitbox.monitorable = true
+	# Hacky but works
+	hitboxCollisionShape.set_deferred("disabled", false)
