@@ -1,37 +1,38 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Templates/TileMaps/ExteriorWallSlopeRightTilesetTemplate.png" type="Texture" id=1]
 [ext_resource path="res://Templates/TileMaps/ExteriorWallTilesetTemplate.png" type="Texture" id=2]
 [ext_resource path="res://Templates/TileMaps/ExteriorWallSlopeLeftTilesetTemplate.png" type="Texture" id=3]
+[ext_resource path="res://Templates/TileMaps/ExteriorWallShortTilesetTemplate.png" type="Texture" id=4]
 
-[sub_resource type="ConvexPolygonShape2D" id=10]
-points = PoolVector2Array( 32, 48, 0, 48, 0, 0, 32, 32 )
+[sub_resource type="ConvexPolygonShape2D" id=12]
+points = PoolVector2Array( 32, 48, 0, 48, 0, 32, 32, 32 )
 
-[sub_resource type="ConvexPolygonShape2D" id=11]
-points = PoolVector2Array( 32, 48, 0, 48, 0, 32, 32, 0 )
+[sub_resource type="ConvexPolygonShape2D" id=13]
+points = PoolVector2Array( 32, 48, 0, 48, 0, 32, 32, 32 )
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
-points = PoolVector2Array( 0, 0, 32, 0, 32, 48, 0, 48 )
+points = PoolVector2Array( 0, 32, 32, 32, 32, 48, 0, 48 )
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
-points = PoolVector2Array( 32, 48, 0, 48, 0, 0, 32, 0 )
+points = PoolVector2Array( 32, 48, 0, 48, 0, 32, 32, 32 )
 
 [sub_resource type="ConvexPolygonShape2D" id=5]
-points = PoolVector2Array( 0, 1.52588e-05, 32, 1.52588e-05, 32, 48, 0, 48 )
+points = PoolVector2Array( 0, 32, 32, 32, 32, 48, 0, 48 )
 
 [sub_resource type="ConvexPolygonShape2D" id=6]
-points = PoolVector2Array( 0, 1.52588e-05, 32, 1.52588e-05, 32, 48, 0, 48 )
+points = PoolVector2Array( 0, 32, 32, 32, 32, 48, 0, 48 )
 
 [sub_resource type="ConvexPolygonShape2D" id=7]
-points = PoolVector2Array( 0, 1.52588e-05, 32, 1.52588e-05, 32, 48, 0, 48 )
+points = PoolVector2Array( 0, 32, 32, 32, 32, 48, 0, 48 )
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
-points = PoolVector2Array( 0, 1.52588e-05, 32, 1.52588e-05, 32, 48, 0, 48 )
+points = PoolVector2Array( 0, 32, 32, 32, 32, 48, 0, 48 )
 
 [sub_resource type="ConvexPolygonShape2D" id=9]
-points = PoolVector2Array( 0, 1.52588e-05, 32, 1.52588e-05, 32, 48, 0, 48 )
+points = PoolVector2Array( 0, 32, 32, 32, 32, 48, 0, 48 )
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=10]
 script/source = "extends TileSet
 tool
 
@@ -40,10 +41,10 @@ func _is_tile_bound(drawn_id, neighbor_id):
 	return neighbor_id in get_tiles_ids()
 "
 
-[sub_resource type="TileSet" id=2]
+[sub_resource type="TileSet" id=11]
 8/name = "Left Slope"
 8/texture = ExtResource( 3 )
-8/tex_offset = Vector2( 0, 0 )
+8/tex_offset = Vector2( 0, -16 )
 8/modulate = Color( 1, 1, 1, 1 )
 8/region = Rect2( 0, 0, 384, 192 )
 8/tile_mode = 1
@@ -56,24 +57,24 @@ func _is_tile_bound(drawn_id, neighbor_id):
 8/autotile/navpoly_map = [  ]
 8/autotile/priority_map = [  ]
 8/autotile/z_index_map = [  ]
-8/occluder_offset = Vector2( 0, 0 )
-8/navigation_offset = Vector2( 0, 0 )
-8/shape_offset = Vector2( 0, 0 )
-8/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-8/shape = SubResource( 11 )
+8/occluder_offset = Vector2( 0, -16 )
+8/navigation_offset = Vector2( 0, -16 )
+8/shape_offset = Vector2( 0, -16 )
+8/shape_transform = Transform2D( 1, 0, 0, 1, 0, -16 )
+8/shape = SubResource( 13 )
 8/shape_one_way = false
 8/shape_one_way_margin = 1.0
 8/shapes = [ {
 "autotile_coord": Vector2( 1, 3 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 11 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape": SubResource( 13 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 } ]
 8/z_index = 0
 9/name = "South Wall"
 9/texture = ExtResource( 2 )
-9/tex_offset = Vector2( 0, 0 )
+9/tex_offset = Vector2( 0, -16 )
 9/modulate = Color( 1, 1, 1, 1 )
 9/region = Rect2( 0, 0, 384, 192 )
 9/tile_mode = 1
@@ -86,10 +87,10 @@ func _is_tile_bound(drawn_id, neighbor_id):
 9/autotile/navpoly_map = [  ]
 9/autotile/priority_map = [  ]
 9/autotile/z_index_map = [  ]
-9/occluder_offset = Vector2( 0, 0 )
-9/navigation_offset = Vector2( 0, 0 )
-9/shape_offset = Vector2( 0, 0 )
-9/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+9/occluder_offset = Vector2( 0, -16 )
+9/navigation_offset = Vector2( 0, -16 )
+9/shape_offset = Vector2( 0, -16 )
+9/shape_transform = Transform2D( 1, 0, 0, 1, 0, -16 )
 9/shape = SubResource( 3 )
 9/shape_one_way = false
 9/shape_one_way_margin = 1.0
@@ -98,48 +99,48 @@ func _is_tile_bound(drawn_id, neighbor_id):
 "one_way": false,
 "one_way_margin": 1.0,
 "shape": SubResource( 3 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 }, {
 "autotile_coord": Vector2( 0, 3 ),
 "one_way": false,
 "one_way_margin": 1.0,
 "shape": SubResource( 4 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 }, {
 "autotile_coord": Vector2( 1, 3 ),
 "one_way": false,
 "one_way_margin": 1.0,
 "shape": SubResource( 5 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 }, {
 "autotile_coord": Vector2( 2, 3 ),
 "one_way": false,
 "one_way_margin": 1.0,
 "shape": SubResource( 6 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 }, {
 "autotile_coord": Vector2( 3, 3 ),
 "one_way": false,
 "one_way_margin": 1.0,
 "shape": SubResource( 7 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 }, {
 "autotile_coord": Vector2( 4, 3 ),
 "one_way": false,
 "one_way_margin": 1.0,
 "shape": SubResource( 8 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 }, {
 "autotile_coord": Vector2( 5, 3 ),
 "one_way": false,
 "one_way_margin": 1.0,
 "shape": SubResource( 9 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 } ]
 9/z_index = 0
 10/name = "Right Slope"
 10/texture = ExtResource( 1 )
-10/tex_offset = Vector2( 0, 0 )
+10/tex_offset = Vector2( 0, -16 )
 10/modulate = Color( 1, 1, 1, 1 )
 10/region = Rect2( 0, 0, 384, 192 )
 10/tile_mode = 1
@@ -152,25 +153,50 @@ func _is_tile_bound(drawn_id, neighbor_id):
 10/autotile/navpoly_map = [  ]
 10/autotile/priority_map = [  ]
 10/autotile/z_index_map = [  ]
-10/occluder_offset = Vector2( 0, 0 )
-10/navigation_offset = Vector2( 0, 0 )
-10/shape_offset = Vector2( 0, 0 )
-10/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-10/shape = SubResource( 10 )
+10/occluder_offset = Vector2( 0, -16 )
+10/navigation_offset = Vector2( 0, -16 )
+10/shape_offset = Vector2( 0, -16 )
+10/shape_transform = Transform2D( 1, 0, 0, 1, 0, -16 )
+10/shape = SubResource( 12 )
 10/shape_one_way = false
 10/shape_one_way_margin = 1.0
 10/shapes = [ {
 "autotile_coord": Vector2( 3, 3 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 10 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+"shape": SubResource( 12 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 } ]
 10/z_index = 0
-script = SubResource( 1 )
+11/name = "ExteriorWallShortTilesetTemplate.png 11"
+11/texture = ExtResource( 4 )
+11/tex_offset = Vector2( 0, 0 )
+11/modulate = Color( 1, 1, 1, 1 )
+11/region = Rect2( 0, 0, 128, 128 )
+11/tile_mode = 1
+11/autotile/bitmask_mode = 1
+11/autotile/bitmask_flags = [ Vector2( 0, 0 ), 16, Vector2( 0, 1 ), 144, Vector2( 0, 2 ), 146, Vector2( 0, 3 ), 18, Vector2( 1, 0 ), 48, Vector2( 1, 1 ), 16777392, Vector2( 1, 2 ), 17039538, Vector2( 1, 3 ), 262194, Vector2( 2, 0 ), 56, Vector2( 2, 1 ), 20971704, Vector2( 2, 2 ), 21299386, Vector2( 2, 3 ), 327738, Vector2( 3, 0 ), 24, Vector2( 3, 1 ), 4194456, Vector2( 3, 2 ), 4259994, Vector2( 3, 3 ), 65562 ]
+11/autotile/icon_coordinate = Vector2( 0, 0 )
+11/autotile/tile_size = Vector2( 32, 32 )
+11/autotile/spacing = 0
+11/autotile/occluder_map = [  ]
+11/autotile/navpoly_map = [  ]
+11/autotile/priority_map = [  ]
+11/autotile/z_index_map = [  ]
+11/occluder_offset = Vector2( 0, 0 )
+11/navigation_offset = Vector2( 0, 0 )
+11/shape_offset = Vector2( 0, 0 )
+11/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+11/shape_one_way = false
+11/shape_one_way_margin = 0.0
+11/shapes = [  ]
+11/z_index = 0
+script = SubResource( 10 )
 
 [node name="ExteriorWallTileMap" type="TileMap"]
-tile_set = SubResource( 2 )
+tile_set = SubResource( 11 )
 cell_size = Vector2( 32, 32 )
+cell_tile_origin = 2
+cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( -1441746, 8, 8, -1441745, 9, 10, -1441744, 10, 11, -1376211, 9, 8, -1376210, 9, 65541, -1376209, 9, 131081, -1376208, 9, 65542, -1376207, 9, 11, -1310675, 9, 196616, -1310674, 9, 196617, -1310673, 9, 196617, -1310672, 9, 196617, -1310671, 9, 196619, -1179618, 7, 0, -1179617, 7, 0, -1179616, 7, 0, -1179615, 7, 0, -1114082, 7, 0 )
+tile_data = PoolIntArray( -1179618, 7, 0, -1179617, 7, 0, -1179616, 7, 0, -1179615, 7, 0, -1114082, 7, 0 )

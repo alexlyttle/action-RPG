@@ -175,6 +175,8 @@ ui_back={
 2d_physics/layer_4="EnemyHurtbox"
 2d_physics/layer_5="Enemy"
 2d_physics/layer_6="SoftCollisions"
+2d_physics/layer_7="Background"
+2d_physics/layer_8="Foreground"
 
 [rendering]
 
